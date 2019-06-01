@@ -61,7 +61,6 @@ class HalfModalPresentationController : UIPresentationController {
             presentedView!.frame.size.height = containerView!.frame.height
         case .changed:
             let velocity = pan.velocity(in: pan.view?.superview)
-            print(velocity.y)
             switch state {
             case .normal:
                 presentedView!.frame.origin.y = endPoint.y + containerView!.frame.height / 2
@@ -149,15 +148,12 @@ class HalfModalPresentationController : UIPresentationController {
                 self.dimmingView.alpha = 0
                 self.presentingViewController.view.transform = CGAffineTransform.identity
             }, completion: { (completed) -> Void in
-                print("done dismiss animation")
             })
             
         }
     }
     
     override func dismissalTransitionDidEnd(_ completed: Bool) {
-        print("dismissal did end: \(completed)")
-        
         if completed {
             dimmingView.removeFromSuperview()
             _dimmingView = nil
