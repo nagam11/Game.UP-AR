@@ -13,12 +13,11 @@ import CoreBluetooth
 protocol BTDeviceDelegate: class {
     func deviceConnected()
     func deviceReady()
-    func deviceBlinkChanged(value: Bool)
-    func deviceSpeedChanged(value: Bool)
-    func deviceValueChanged(value: Int)
+    func deviceGreenChanged(value: Bool)
+    func deviceYellowChanged(value: Bool)
+    func deviceTouchChanged(value: Int)
     func deviceSerialChanged(value: String)
     func deviceDisconnected()
-    
 }
 
 class BTDevice: NSObject {
@@ -158,16 +157,16 @@ extension BTDevice: CBPeripheralDelegate {
         
         if characteristic.uuid == touchChar?.uuid, let t = characteristic.value?.parseInt() {
             _touch = Int(t)
-            delegate?.deviceValueChanged(value: touch)
+            delegate?.deviceTouchChanged(value: touch)
         }
         
         if characteristic.uuid == greenChar?.uuid, let g = characteristic.value?.parseBool() {
             _greenLED = g
-            delegate?.deviceBlinkChanged(value: _greenLED)
+            delegate?.deviceGreenChanged(value: _greenLED)
         }
         if characteristic.uuid == yellowChar?.uuid, let y = characteristic.value?.parseBool() {
             _yellowLED = y
-            delegate?.deviceSpeedChanged(value: _yellowLED)
+            delegate?.deviceYellowChanged(value: _yellowLED)
         }
         
         if characteristic.uuid == BTUUIDs.infoSerial, let d = characteristic.value {

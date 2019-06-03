@@ -181,8 +181,10 @@ void loop() {
         // Read 'Touch Values'
         int touchValue_green = touchRead(Touch_G);
         int touchValue_yellow = touchRead(Touch_Y);
+        Serial.println(touchValue_green);
+        Serial.println(touchValue_yellow);
         repetitions += 1;
-        if (touchValue_green < 13 && touchValue_green > 4  && repetitions > 8 ){
+        if (touchValue_green < 20 && touchValue_green > 6  && repetitions > 8 ){
           Serial.println(touchValue_green);
           Serial.println("TOUCH GREEN DETECTED");
           repetitions = 0;
@@ -190,7 +192,7 @@ void loop() {
           pTouch->setValue(&touch, 1);
           pTouch->notify();         
         }
-        if (touchValue_yellow < 13 && touchValue_yellow > 4 && repetitions > 8 ){
+        if (touchValue_yellow < 20 && touchValue_yellow > 6 && repetitions > 8 ){
           Serial.println(touchValue_yellow);
           Serial.println("TOUCH YELLOW DETECTED");
           repetitions = 0;   

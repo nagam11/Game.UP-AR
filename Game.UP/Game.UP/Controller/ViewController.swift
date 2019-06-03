@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let scene = SCNScene()
+        modelView.allowsCameraControl = true
         
         // Set the scene to the view
         modelView.scene = scene

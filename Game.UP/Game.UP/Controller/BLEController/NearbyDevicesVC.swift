@@ -18,6 +18,7 @@ class NearbyDevicesVC: UITableViewController {
             }
         }
     }
+    
     @IBOutlet var scanLabel: UILabel!
     
     override func viewDidLoad() {
@@ -33,6 +34,9 @@ class NearbyDevicesVC: UITableViewController {
         manager.delegate = self
     }
     
+    @IBAction func backButton(_ sender: Any) {
+        dismiss(animated: false, completion: nil)
+    }
     func updateStatusLabel() {
         scanLabel.text = "state: \(manager.state), scan: \(manager.scanning)"
     }
@@ -72,6 +76,4 @@ extension NearbyDevicesVC: BTManagerDelegate {
     func didEnableScan(on: Bool) {
         updateStatusLabel()
     }
-    
-    
 }

@@ -68,7 +68,7 @@ class DeviceVC: UIViewController {
     }
     
     deinit {
-        //    device?.disconnect()
+        //device?.disconnect()
     }
     
     override func viewDidLoad() {
@@ -88,15 +88,20 @@ class DeviceVC: UIViewController {
     @IBAction func yellowChanged(_ sender: Any) {
         device?.yellow = yellowSwitch.isOn
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "sendDeviceSegue" {
+            let vc : ARViewController = segue.destination as! ARViewController
+            vc.device = self.device
+        }
+    }
 }
 
 extension DeviceVC: BTDeviceDelegate {
     func deviceSerialChanged(value: String) {
-        
     }
     
-    func deviceSpeedChanged(value: Bool) {
-        //speedSlider.value = Float(value)
+    func deviceYellowChanged(value: Bool) {
         yellowSwitch.setOn(value, animated: true)
         
         if UIApplication.shared.applicationState == .background {
@@ -112,7 +117,7 @@ extension DeviceVC: BTDeviceDelegate {
         }
     }
     
-    func deviceValueChanged(value: Int) {
+    func deviceTouchChanged(value: Int) {
         touchLabel.text = String(value)
     }
     
@@ -128,7 +133,7 @@ extension DeviceVC: BTDeviceDelegate {
         viewState = .ready
     }
     
-    func deviceBlinkChanged(value: Bool) {
+    func deviceGreenChanged(value: Bool) {
         greenSwitch.setOn(value, animated: true)
         
         if UIApplication.shared.applicationState == .background {
@@ -143,6 +148,4 @@ extension DeviceVC: BTDeviceDelegate {
             }
         }
     }
-    
-    
 }

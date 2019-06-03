@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2009A9C922A49F9F00A785F0 /* example_5s0_hand_model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2009A9C822A49F9F00A785F0 /* example_5s0_hand_model.mlmodel */; };
 		20250F18229DC2C30026FE8C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20250F17229DC2C30026FE8C /* ViewController.swift */; };
 		20250F27229DD71A0026FE8C /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20250F26229DD71A0026FE8C /* ModalViewController.swift */; };
 		20250F29229DD7310026FE8C /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20250F28229DD7310026FE8C /* NavigationController.swift */; };
@@ -33,6 +34,7 @@
 		0CEAE7774B97968A445283CD /* Pods-Game.UP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Game.UP.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Game.UP/Pods-Game.UP.debug.xcconfig"; sourceTree = "<group>"; };
 		1BA2632175706C10730BF10A /* Pods-Game.UP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Game.UP.release.xcconfig"; path = "Pods/Target Support Files/Pods-Game.UP/Pods-Game.UP.release.xcconfig"; sourceTree = "<group>"; };
 		1D359798900B55CD2494EF4B /* Pods_Game_UP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Game_UP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2009A9C822A49F9F00A785F0 /* example_5s0_hand_model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = example_5s0_hand_model.mlmodel; sourceTree = "<group>"; };
 		20250F17229DC2C30026FE8C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		20250F26229DD71A0026FE8C /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		20250F28229DD7310026FE8C /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				2047564522A30F2F00193A00 /* BLEController */,
 				20BBDAA7229D87E600123904 /* ARViewController.swift */,
+				2009A9C822A49F9F00A785F0 /* example_5s0_hand_model.mlmodel */,
 				20250F17229DC2C30026FE8C /* ViewController.swift */,
 				20250F26229DD71A0026FE8C /* ModalViewController.swift */,
 				20250F28229DD7310026FE8C /* NavigationController.swift */,
@@ -283,6 +286,7 @@
 				20250F27229DD71A0026FE8C /* ModalViewController.swift in Sources */,
 				2047563A22A2FFF800193A00 /* BTManager.swift in Sources */,
 				20250F18229DC2C30026FE8C /* ViewController.swift in Sources */,
+				2009A9C922A49F9F00A785F0 /* example_5s0_hand_model.mlmodel in Sources */,
 				2047564222A3064400193A00 /* NearbyDevicesVC.swift in Sources */,
 				2047564422A3068500193A00 /* DeviceVC.swift in Sources */,
 				20250F35229DD8430026FE8C /* HalfModalTransitioningDelegate.swift in Sources */,
