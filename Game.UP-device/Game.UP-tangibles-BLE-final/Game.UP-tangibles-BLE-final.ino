@@ -131,11 +131,11 @@ uint8_t LONG_TOUCH_STORY[] = {0, 0, 0, 0, 0, 0, 0, 0};
 bool LONG_TOUCH_BOOL[] = {false, false, false, false, false, false, false, false};
 /*bool B4_Touch_started = false;
 bool B5_Touch_started = false;*/
-unsigned long TOUCH_TIME = {false, false, false, false, false, false, false, false};
+unsigned long TOUCH_TIME[] = {false, false, false, false, false, false, false, false};
 /*unsigned long B4_Touch_begin;
 unsigned long B5_Touch_begin;*/
-long CURRENT_LONG_DELAY = {0, 0, 0, 0, 0, 0, 0, 0};
-long RECENT_LONG_DELAY = {0, 0, 0, 0, 0, 0, 0, 0};
+long CURRENT_LONG_DELAY[] = {0, 0, 0, 0, 0, 0, 0, 0};
+long RECENT_LONG_DELAY[] = {0, 0, 0, 0, 0, 0, 0, 0};
 /*long B4_current_long_delayy;
 long B4_recent_long_delay;
 long B5_current_long_delay;
@@ -155,16 +155,37 @@ class MyServerCallbacks: public BLEServerCallbacks {
 };
 
 // Handle Requests for LED
-class LEDCallbacks: public BLECharacteristicCallbacks {
-    public: 
-       NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip;
-       LEDCallbacks(NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> s){        
-        strip = s; 
-       }
-    void onWrite(BLECharacteristic *pCharacteristic) {
+class LEDCallbacks: public BLECharacteristicCallbacks { 
+  // Cannot pass LED strip for callback   
+    String s;
+    public:     
+       LEDCallbacks(String p){
+        s = p;
+       }    
+       
+    void onWrite(BLECharacteristic *pCharacteristic) {      
       std::string value = pCharacteristic->getValue();
       uint8_t v = value[0];
+      
       // 0: off , 1 : green, 2 :red , 3:blue 
+      // Find out which strip was selected
+      switch(s){
+        case "B1":
+          strip = LEDs_STRIP[0];
+          break;
+        case "B2":
+          break;
+        case "B3":
+          break;
+        case "B4":
+          break;
+        case "B5":
+          break;
+        case "B6":
+          break;
+        default:
+          break;
+      }
       if (v == 0){   
           Serial.print(strip);
           Serial.println(" OFF");
@@ -173,11 +194,11 @@ class LEDCallbacks: public BLECharacteristicCallbacks {
           Serial.print(strip);
           Serial.println(" ON- green");         
           colorPixels(green, strip);          
-        }else if (value == 1){          
+        }else if (value == 2){          
           Serial.print(strip);
           Serial.println("ON - red");         
           colorPixels(red, strip);          
-        } else if (value == 1){          
+        } else if (value == 3){          
           Serial.print(strip);
           Serial.printl("ON - blue");         
           colorPixels(blue, strip);          
