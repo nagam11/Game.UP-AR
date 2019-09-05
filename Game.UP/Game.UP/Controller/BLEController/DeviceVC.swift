@@ -53,14 +53,14 @@ class DeviceVC: UIViewController {
                 yellowSwitch.isEnabled = true
                 disconnectButton.isEnabled = true
                 
-                if let b = device?.green {
+                if let b = device?.b1_led {
                     greenSwitch.isOn = b
                 }
                 if let v = device?.touch {
                     print(v)
                     touchLabel.text = String(v)
                 }
-                if let s = device?.yellow {
+                if let s = device?.b2_led {
                     yellowSwitch.isOn = s
                 }
             }
@@ -82,11 +82,11 @@ class DeviceVC: UIViewController {
     }
     
     @IBAction func greenChanged(_ sender: Any) {
-         device?.green = greenSwitch.isOn
+         device?.b1_led = greenSwitch.isOn
     }
     
     @IBAction func yellowChanged(_ sender: Any) {
-        device?.yellow = yellowSwitch.isOn
+        device?.b2_led = yellowSwitch.isOn
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -98,10 +98,26 @@ class DeviceVC: UIViewController {
 }
 
 extension DeviceVC: BTDeviceDelegate {
+    func deviceB4Changed(value: Int) {
+        
+    }
+    
+    func deviceB6Changed(value: Bool) {
+        
+    }
+    
+    func deviceLongTouchB4Changed(value: Int) {
+        
+    }
+    
+    func deviceLongTouchB5Changed(value: Int) {
+        
+    }
+    
     func deviceSerialChanged(value: String) {
     }
     
-    func deviceYellowChanged(value: Bool) {
+    func deviceB2Changed(value: Bool) {
         yellowSwitch.setOn(value, animated: true)
         
         if UIApplication.shared.applicationState == .background {
@@ -133,7 +149,7 @@ extension DeviceVC: BTDeviceDelegate {
         viewState = .ready
     }
     
-    func deviceGreenChanged(value: Bool) {
+    func deviceB1Changed(value: Bool) {
         greenSwitch.setOn(value, animated: true)
         
         if UIApplication.shared.applicationState == .background {

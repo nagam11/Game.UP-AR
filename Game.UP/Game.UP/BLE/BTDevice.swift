@@ -13,9 +13,13 @@ import CoreBluetooth
 protocol BTDeviceDelegate: class {
     func deviceConnected()
     func deviceReady()
-    func deviceGreenChanged(value: Bool)
-    func deviceYellowChanged(value: Bool)
+    func deviceB1Changed(value: Bool)
+    func deviceB2Changed(value: Bool)
+    func deviceB4Changed(value: Int)
+    func deviceB6Changed(value: Bool)
     func deviceTouchChanged(value: Int)
+    func deviceLongTouchB4Changed(value: Int)
+    func deviceLongTouchB5Changed(value: Int)
     func deviceSerialChanged(value: String)
     func deviceDisconnected()
 }
@@ -23,12 +27,20 @@ protocol BTDeviceDelegate: class {
 class BTDevice: NSObject {
     private let peripheral: CBPeripheral
     private let manager: CBCentralManager
-    private var greenChar: CBCharacteristic?
-    private var yellowChar: CBCharacteristic?
+    private var b1Char: CBCharacteristic?
+    private var b2Char: CBCharacteristic?
+    private var b4Char: CBCharacteristic?
+    private var b6Char: CBCharacteristic?
     private var touchChar: CBCharacteristic?
-    private var _greenLED: Bool = false
-    private var _yellowLED: Bool = false
+    private var long_touch_b4_Char: CBCharacteristic?
+    private var long_touch_b5_Char: CBCharacteristic?
+    private var _b1_led: Bool = false
+    private var _b2_led: Bool = false
+    private var _b4_led: Int = 0
+    private var _b6_led: Bool = false
     private var _touch: Int = 2
+    private var _long_touch_b4: Int = 0
+    private var _long_touch_b5: Int = 0
     
     weak var delegate: BTDeviceDelegate?
     var touch: Int {
@@ -45,30 +57,85 @@ class BTDevice: NSObject {
         }
     }
     
-    var green: Bool {
+    var long_touch_b4: Int {
         get {
-            return _greenLED
+            return _long_touch_b4
         }
         set {
-            guard _greenLED != newValue else { return }
+            guard _long_touch_b4 != newValue else { return }
             
-            _greenLED = newValue
-            if let char = greenChar {
-                peripheral.writeValue(Data(bytes: [_greenLED ? 1 : 0]), for: char, type: .withResponse)
+            _long_touch_b4 = newValue
+            if let char = long_touch_b4_Char {
+                peripheral.writeValue(Data(bytes: [UInt8(_long_touch_b4)]), for: char, type: .withResponse)
+            }
+        }
+    }
+    
+    var long_touch_b5: Int {
+        get {
+            return _long_touch_b5
+        }
+        set {
+            guard _long_touch_b5 != newValue else { return }
+            
+            _long_touch_b5 = newValue
+            if let char = long_touch_b5_Char {
+                peripheral.writeValue(Data(bytes: [UInt8(_long_touch_b5)]), for: char, type: .withResponse)
+            }
+        }
+    }
+    
+    var b1_led: Bool {
+        get {
+            return _b1_led
+        }
+        set {
+            guard _b1_led != newValue else { return }
+            
+            _b1_led = newValue
+            if let char = b1Char {
+                peripheral.writeValue(Data(bytes: [_b1_led ? 1 : 0]), for: char, type: .withResponse)
                 
             }
         }
     }
-    var yellow: Bool {
+    var b2_led: Bool {
         get {
-            return _yellowLED
+            return _b2_led
         }
         set {
-            guard _yellowLED != newValue else { return }
+            guard _b2_led != newValue else { return }
             
-            _yellowLED = newValue
-            if let char = yellowChar {
-                peripheral.writeValue(Data(bytes: [_yellowLED ? 1 : 0]), for: char, type: .withResponse)
+            _b2_led = newValue
+            if let char = b2Char {
+                peripheral.writeValue(Data(bytes: [_b2_led ? 1 : 0]), for: char, type: .withResponse)
+            }
+        }
+    }
+    var b4_led: Int {
+        get {
+            return _b4_led
+        }
+        set {
+            guard _b4_led != newValue else { return }
+            
+            _b4_led = newValue
+            if let char = b4Char {
+                peripheral.writeValue(Data(bytes: [UInt8(_b4_led)]), for: char, type: .withResponse)
+            }
+        }
+    }
+    
+    var b6_led: Bool {
+        get {
+            return _b6_led
+        }
+        set {
+            guard _b6_led != newValue else { return }
+            
+            _b6_led = newValue
+            if let char = b6Char {
+                peripheral.writeValue(Data(bytes: [_b6_led ? 1 : 0]), for: char, type: .withResponse)
             }
         }
     }
@@ -122,7 +189,7 @@ extension BTDevice: CBPeripheralDelegate {
             if $0.uuid == BTUUIDs.infoService {
                 peripheral.discoverCharacteristics([BTUUIDs.infoSerial], for: $0)
             } else if $0.uuid == BTUUIDs.service {
-                peripheral.discoverCharacteristics([BTUUIDs.greenLED,BTUUIDs.yellowLED, BTUUIDs.touch], for: $0)
+                peripheral.discoverCharacteristics([BTUUIDs.B1_UUID,BTUUIDs.B2_UUID, BTUUIDs.B4_UUID, BTUUIDs.B6_UUID, BTUUIDs.touch, BTUUIDs.B4_LONG_TOUCH_UUID, BTUUIDs.B5_LONG_TOUCH_UUID  ], for: $0)
             } else {
                 peripheral.discoverCharacteristics(nil, for: $0)
             }
@@ -134,17 +201,30 @@ extension BTDevice: CBPeripheralDelegate {
         service.characteristics?.forEach {
             //print("   \($0)")
             
-            if $0.uuid == BTUUIDs.greenLED {
-                self.greenChar = $0
+            if $0.uuid == BTUUIDs.B1_UUID {
+                self.b1Char = $0
                 peripheral.readValue(for: $0)
-                peripheral.setNotifyValue(true, for: $0)
-            } else if $0.uuid == BTUUIDs.yellowLED {
-                self.yellowChar = $0
+            } else if $0.uuid == BTUUIDs.B2_UUID {
+                self.b2Char = $0
+                peripheral.readValue(for: $0)
+            } else if $0.uuid == BTUUIDs.B4_UUID {
+                self.b4Char = $0
+                peripheral.readValue(for: $0)
+            } else if $0.uuid == BTUUIDs.B6_UUID {
+                self.b6Char = $0
                 peripheral.readValue(for: $0)
             } else if $0.uuid == BTUUIDs.infoSerial {
                 peripheral.readValue(for: $0)
             } else if $0.uuid == BTUUIDs.touch {
                 self.touchChar = $0
+                peripheral.readValue(for: $0)
+                peripheral.setNotifyValue(true, for: $0)
+            }else if $0.uuid == BTUUIDs.B5_LONG_TOUCH_UUID   {
+                self.long_touch_b5_Char = $0
+                peripheral.readValue(for: $0)
+                peripheral.setNotifyValue(true, for: $0)
+            } else if $0.uuid == BTUUIDs.B4_LONG_TOUCH_UUID {
+                self.long_touch_b4_Char = $0
                 peripheral.readValue(for: $0)
                 peripheral.setNotifyValue(true, for: $0)
             }
@@ -160,13 +240,31 @@ extension BTDevice: CBPeripheralDelegate {
             delegate?.deviceTouchChanged(value: touch)
         }
         
-        if characteristic.uuid == greenChar?.uuid, let g = characteristic.value?.parseBool() {
-            _greenLED = g
-            delegate?.deviceGreenChanged(value: _greenLED)
+        if characteristic.uuid == long_touch_b4_Char?.uuid, let q = characteristic.value?.parseInt() {
+            _long_touch_b4 = Int(q)
+            delegate?.deviceLongTouchB4Changed(value: long_touch_b4)
         }
-        if characteristic.uuid == yellowChar?.uuid, let y = characteristic.value?.parseBool() {
-            _yellowLED = y
-            delegate?.deviceYellowChanged(value: _yellowLED)
+        
+        if characteristic.uuid == long_touch_b5_Char?.uuid, let w = characteristic.value?.parseInt() {
+            _long_touch_b5 = Int(w)
+            delegate?.deviceLongTouchB5Changed(value: long_touch_b5)
+        }
+        
+        if characteristic.uuid == b1Char?.uuid, let g = characteristic.value?.parseBool() {
+            _b1_led = g
+            delegate?.deviceB1Changed(value: _b1_led)
+        }
+        if characteristic.uuid == b2Char?.uuid, let y = characteristic.value?.parseBool() {
+            _b2_led = y
+            delegate?.deviceB2Changed(value: _b2_led)
+        }
+        if characteristic.uuid == b4Char?.uuid, let u = characteristic.value?.parseInt() {
+            _b4_led = Int(u)
+            delegate?.deviceB4Changed(value: _b4_led)
+        }
+        if characteristic.uuid == b6Char?.uuid, let z = characteristic.value?.parseBool() {
+            _b6_led = z
+            delegate?.deviceB6Changed(value: _b6_led)
         }
         
         if characteristic.uuid == BTUUIDs.infoSerial, let d = characteristic.value {

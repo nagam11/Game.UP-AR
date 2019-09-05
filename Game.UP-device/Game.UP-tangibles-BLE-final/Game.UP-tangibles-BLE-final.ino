@@ -2,6 +2,7 @@
 #include <BLEServer.h>
 #include <BLEUtils.h>
 #include <BLE2902.h>
+#include <BLEUUID.h>
 #include <TaskScheduler.h>
 #include <Arduino.h>
 #include <CapacitiveSensor.h>
@@ -166,41 +167,38 @@ class LEDCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {      
       std::string value = pCharacteristic->getValue();
       uint8_t v = value[0];
+      NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip = B1_strip;
       
       // 0: off , 1 : green, 2 :red , 3:blue 
       // Find out which strip was selected
-      switch(s){
-        case "B1":
-          strip = LEDs_STRIP[0];
-          break;
-        case "B2":
-          break;
-        case "B3":
-          break;
-        case "B4":
-          break;
-        case "B5":
-          break;
-        case "B6":
-          break;
-        default:
-          break;
+      if (s == "B1") {
+          NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip = B1_strip;
+      } else if (s ==  "B2") {
+        NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip = B2_strip;
+      } else if (s ==  "B3") {
+        NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip = B3_strip;
+      }else if (s ==  "B4") {
+        NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip = B4_strip;
+      }else if (s ==  "B5") {
+        NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip = B5_strip;
+      }else if (s ==  "B6") {
+        NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip = B6_strip;
       }
       if (v == 0){   
-          Serial.print(strip);
+          Serial.print(s);
           Serial.println(" OFF");
           colorPixels(black, strip);                    
-        } else if (value == 1){          
-          Serial.print(strip);
+        } else if (v == 1){          
+          Serial.print(s);
           Serial.println(" ON- green");         
           colorPixels(green, strip);          
-        }else if (value == 2){          
-          Serial.print(strip);
+        }else if (v == 2){          
+          Serial.print(s);
           Serial.println("ON - red");         
           colorPixels(red, strip);          
-        } else if (value == 3){          
-          Serial.print(strip);
-          Serial.printl("ON - blue");         
+        } else if (v == 3){          
+          Serial.print(s);
+          Serial.println("ON - blue");         
           colorPixels(blue, strip);          
         }else {
         Serial.println("Invalid data received");
@@ -209,7 +207,7 @@ class LEDCallbacks: public BLECharacteristicCallbacks {
   
   // Fill specific dots at the same time with a color
   void colorPixels(RgbColor c, NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip) {
-     switch (strip) {
+   /*  switch (strip) {
       case B1_strip:
         for (uint32_t j = 0; j < COUNT; j++) {
           B1_strip.SetPixelColor(j, c);
@@ -254,7 +252,7 @@ class LEDCallbacks: public BLECharacteristicCallbacks {
         break;
       default:
         break;
-    }
+    }*/
   }
 };
 
@@ -291,7 +289,7 @@ void setup() {
 
   // Create the BLE Characteristics for LED & Touch
   for (int i =0; i < 6; i++){
-    LEDs_CHAR[i] = pService->createCharacteristic(LEDs_UUID[i], BLECharacteristic::PROPERTY_READ  | BLECharacteristic::PROPERTY_WRITE);
+    LEDs_CHAR[i] = pService->createCharacteristic(&LEDs_UUID[i], BLECharacteristic::PROPERTY_READ  | BLECharacteristic::PROPERTY_WRITE);
     LEDs_CHAR[i]->setCallbacks(new LEDCallbacks(LEDs_STRIP[i]));
   }
 
@@ -387,28 +385,19 @@ void loop() {
 // Fill specific dots at the same time with a specific color
 void colorPixels(RgbColor c, NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> strip) {
   // pay attention 6 and not 8
-   /* for (uint32_t j = 0; j < COUNT; j++) {
-      LEDs_STRIP[i].SetPixelColor(j, c);
-    }
-    delay(1);
-    LEDs_STRIP[i].Show(); 
-  */
-   
-   switch (strip) {
-    case B1_strip:
+   if (strip == B1_strip) {
       for (uint32_t j = 0; j < COUNT; j++) {
         B1_strip.SetPixelColor(j, c);
       }
       delay(1);
       B1_strip.Show();
-      break;
-    case B2_strip:
+   } else if (strip == B2_strip) {    
       for (uint32_t j = 0; j < COUNT; j++) {
         B2_strip.SetPixelColor(j, c);
       }
       delay(1);
       B2_strip.Show();
-      break;
+    }
     case B3_strip:
       for (uint32_t j = 0; j < COUNT; j++) {
         B3_strip.SetPixelColor(j, c);
