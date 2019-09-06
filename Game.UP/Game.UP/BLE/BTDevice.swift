@@ -13,10 +13,10 @@ import CoreBluetooth
 protocol BTDeviceDelegate: class {
     func deviceConnected()
     func deviceReady()
-    func deviceB1Changed(value: Bool)
-    func deviceB2Changed(value: Bool)
+    func deviceB1Changed(value: Int)
+    func deviceB2Changed(value: Int)
     func deviceB4Changed(value: Int)
-    func deviceB6Changed(value: Bool)
+    func deviceB6Changed(value: Int)
     func deviceTouchChanged(value: Int)
     func deviceLongTouchB4Changed(value: Int)
     func deviceLongTouchB5Changed(value: Int)
@@ -34,10 +34,10 @@ class BTDevice: NSObject {
     private var touchChar: CBCharacteristic?
     private var long_touch_b4_Char: CBCharacteristic?
     private var long_touch_b5_Char: CBCharacteristic?
-    private var _b1_led: Bool = false
-    private var _b2_led: Bool = false
+    private var _b1_led: Int = 0
+    private var _b2_led: Int = 0
     private var _b4_led: Int = 0
-    private var _b6_led: Bool = false
+    private var _b6_led: Int = 0
     private var _touch: Int = 2
     private var _long_touch_b4: Int = 0
     private var _long_touch_b5: Int = 0
@@ -85,7 +85,8 @@ class BTDevice: NSObject {
         }
     }
     
-    var b1_led: Bool {
+    /*=========================================== Color of building as Int===================================== */
+    var b1_led: Int {
         get {
             return _b1_led
         }
@@ -94,12 +95,12 @@ class BTDevice: NSObject {
             
             _b1_led = newValue
             if let char = b1Char {
-                peripheral.writeValue(Data(bytes: [_b1_led ? 1 : 0]), for: char, type: .withResponse)
+                peripheral.writeValue(Data(bytes: [UInt8(_b1_led)]), for: char, type: .withResponse)
                 
             }
         }
     }
-    var b2_led: Bool {
+    var b2_led: Int {
         get {
             return _b2_led
         }
@@ -108,7 +109,7 @@ class BTDevice: NSObject {
             
             _b2_led = newValue
             if let char = b2Char {
-                peripheral.writeValue(Data(bytes: [_b2_led ? 1 : 0]), for: char, type: .withResponse)
+                peripheral.writeValue(Data(bytes: [UInt8(_b2_led)]), for: char, type: .withResponse)
             }
         }
     }
@@ -126,7 +127,7 @@ class BTDevice: NSObject {
         }
     }
     
-    var b6_led: Bool {
+    var b6_led: Int {
         get {
             return _b6_led
         }
@@ -135,7 +136,7 @@ class BTDevice: NSObject {
             
             _b6_led = newValue
             if let char = b6Char {
-                peripheral.writeValue(Data(bytes: [_b6_led ? 1 : 0]), for: char, type: .withResponse)
+                peripheral.writeValue(Data(bytes: [UInt8(_b6_led)]), for: char, type: .withResponse)
             }
         }
     }
@@ -250,20 +251,20 @@ extension BTDevice: CBPeripheralDelegate {
             delegate?.deviceLongTouchB5Changed(value: long_touch_b5)
         }
         
-        if characteristic.uuid == b1Char?.uuid, let g = characteristic.value?.parseBool() {
-            _b1_led = g
+        if characteristic.uuid == b1Char?.uuid, let g = characteristic.value?.parseInt() {
+            _b1_led = Int(g)
             delegate?.deviceB1Changed(value: _b1_led)
         }
-        if characteristic.uuid == b2Char?.uuid, let y = characteristic.value?.parseBool() {
-            _b2_led = y
+        if characteristic.uuid == b2Char?.uuid, let y = characteristic.value?.parseInt() {
+            _b2_led = Int(y)
             delegate?.deviceB2Changed(value: _b2_led)
         }
         if characteristic.uuid == b4Char?.uuid, let u = characteristic.value?.parseInt() {
             _b4_led = Int(u)
             delegate?.deviceB4Changed(value: _b4_led)
         }
-        if characteristic.uuid == b6Char?.uuid, let z = characteristic.value?.parseBool() {
-            _b6_led = z
+        if characteristic.uuid == b6Char?.uuid, let z = characteristic.value?.parseInt() {
+            _b6_led = Int(z)
             delegate?.deviceB6Changed(value: _b6_led)
         }
         

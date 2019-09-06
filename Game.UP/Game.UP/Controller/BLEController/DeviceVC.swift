@@ -54,14 +54,14 @@ class DeviceVC: UIViewController {
                 disconnectButton.isEnabled = true
                 
                 if let b = device?.b1_led {
-                    greenSwitch.isOn = b
+                    //greenSwitch.isOn = b
                 }
                 if let v = device?.touch {
                     print(v)
                     touchLabel.text = String(v)
                 }
                 if let s = device?.b2_led {
-                    yellowSwitch.isOn = s
+                    //yellowSwitch.isOn = s
                 }
             }
         }
@@ -82,11 +82,11 @@ class DeviceVC: UIViewController {
     }
     
     @IBAction func greenChanged(_ sender: Any) {
-         device?.b1_led = greenSwitch.isOn
+         //device?.b1_led = greenSwitch.isOn
     }
     
     @IBAction func yellowChanged(_ sender: Any) {
-        device?.b2_led = yellowSwitch.isOn
+        //device?.b2_led = yellowSwitch.isOn
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -102,7 +102,7 @@ extension DeviceVC: BTDeviceDelegate {
         
     }
     
-    func deviceB6Changed(value: Bool) {
+    func deviceB6Changed(value: Int) {
         
     }
     
@@ -117,10 +117,10 @@ extension DeviceVC: BTDeviceDelegate {
     func deviceSerialChanged(value: String) {
     }
     
-    func deviceB2Changed(value: Bool) {
-        yellowSwitch.setOn(value, animated: true)
+    func deviceB2Changed(value: Int) {
+        //yellowSwitch.setOn(value, animated: true)
         
-        if UIApplication.shared.applicationState == .background {
+     /*   if UIApplication.shared.applicationState == .background {
             let content = UNMutableNotificationContent()
             content.title = "ESP Blinky"
             content.body = value ? "Now blinking" : "Not blinking anymore"
@@ -130,7 +130,7 @@ extension DeviceVC: BTDeviceDelegate {
                     print("DeviceVC: failed to deliver notification \(error)")
                 }
             }
-        }
+        }*/
     }
     
     func deviceTouchChanged(value: Int) {
@@ -149,10 +149,10 @@ extension DeviceVC: BTDeviceDelegate {
         viewState = .ready
     }
     
-    func deviceB1Changed(value: Bool) {
-        greenSwitch.setOn(value, animated: true)
+    func deviceB1Changed(value: Int) {
+        //greenSwitch.setOn(value, animated: true)
         
-        if UIApplication.shared.applicationState == .background {
+      /*  if UIApplication.shared.applicationState == .background {
             let content = UNMutableNotificationContent()
             content.title = "ESP Blinky"
             content.body = value ? "Now blinking" : "Not blinking anymore"
@@ -162,6 +162,6 @@ extension DeviceVC: BTDeviceDelegate {
                     print("DeviceVC: failed to deliver notification \(error)")
                 }
             }
-        }
+        }*/
     }
 }

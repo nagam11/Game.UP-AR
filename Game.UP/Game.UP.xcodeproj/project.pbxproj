@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2009A9C922A49F9F00A785F0 /* example_5s0_hand_model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2009A9C822A49F9F00A785F0 /* example_5s0_hand_model.mlmodel */; };
 		20250F18229DC2C30026FE8C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20250F17229DC2C30026FE8C /* ViewController.swift */; };
 		20250F27229DD71A0026FE8C /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20250F26229DD71A0026FE8C /* ModalViewController.swift */; };
 		20250F29229DD7310026FE8C /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20250F28229DD7310026FE8C /* NavigationController.swift */; };
@@ -27,6 +26,8 @@
 		20BBDAAB229D87E600123904 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20BBDAA9229D87E600123904 /* Main.storyboard */; };
 		20BBDAAD229D87EA00123904 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20BBDAAC229D87EA00123904 /* Assets.xcassets */; };
 		20BBDAB0229D87EA00123904 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20BBDAAE229D87EA00123904 /* LaunchScreen.storyboard */; };
+		20D3B3332321CAF400D8FDFD /* ARModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3B3322321CAF400D8FDFD /* ARModalViewController.swift */; };
+		20D3B3352321CB7200D8FDFD /* ARNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3B3342321CB7200D8FDFD /* ARNavigationController.swift */; };
 		EA997D442857C8AB66DBFBEF /* Pods_Game_UP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D359798900B55CD2494EF4B /* Pods_Game_UP.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +35,6 @@
 		0CEAE7774B97968A445283CD /* Pods-Game.UP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Game.UP.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Game.UP/Pods-Game.UP.debug.xcconfig"; sourceTree = "<group>"; };
 		1BA2632175706C10730BF10A /* Pods-Game.UP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Game.UP.release.xcconfig"; path = "Pods/Target Support Files/Pods-Game.UP/Pods-Game.UP.release.xcconfig"; sourceTree = "<group>"; };
 		1D359798900B55CD2494EF4B /* Pods_Game_UP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Game_UP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2009A9C822A49F9F00A785F0 /* example_5s0_hand_model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = example_5s0_hand_model.mlmodel; sourceTree = "<group>"; };
 		20250F17229DC2C30026FE8C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		20250F26229DD71A0026FE8C /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		20250F28229DD7310026FE8C /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
@@ -56,6 +56,8 @@
 		20BBDAAC229D87EA00123904 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20BBDAAF229D87EA00123904 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		20BBDAB1229D87EA00123904 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20D3B3322321CAF400D8FDFD /* ARModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModalViewController.swift; sourceTree = "<group>"; };
+		20D3B3342321CB7200D8FDFD /* ARNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +103,11 @@
 			children = (
 				2047564522A30F2F00193A00 /* BLEController */,
 				20BBDAA7229D87E600123904 /* ARViewController.swift */,
-				2009A9C822A49F9F00A785F0 /* example_5s0_hand_model.mlmodel */,
 				20250F17229DC2C30026FE8C /* ViewController.swift */,
 				20250F26229DD71A0026FE8C /* ModalViewController.swift */,
 				20250F28229DD7310026FE8C /* NavigationController.swift */,
+				20D3B3322321CAF400D8FDFD /* ARModalViewController.swift */,
+				20D3B3342321CB7200D8FDFD /* ARNavigationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -286,9 +289,9 @@
 				20250F27229DD71A0026FE8C /* ModalViewController.swift in Sources */,
 				2047563A22A2FFF800193A00 /* BTManager.swift in Sources */,
 				20250F18229DC2C30026FE8C /* ViewController.swift in Sources */,
-				2009A9C922A49F9F00A785F0 /* example_5s0_hand_model.mlmodel in Sources */,
 				2047564222A3064400193A00 /* NearbyDevicesVC.swift in Sources */,
 				2047564422A3068500193A00 /* DeviceVC.swift in Sources */,
+				20D3B3332321CAF400D8FDFD /* ARModalViewController.swift in Sources */,
 				20250F35229DD8430026FE8C /* HalfModalTransitioningDelegate.swift in Sources */,
 				20250F2F229DD81F0026FE8C /* HalfModalPresentationController.swift in Sources */,
 				20250F29229DD7310026FE8C /* NavigationController.swift in Sources */,
@@ -297,6 +300,7 @@
 				2047564022A3002100193A00 /* BTUtils.swift in Sources */,
 				2047563E22A3001100193A00 /* BTUUIDs.swift in Sources */,
 				2047563C22A3000400193A00 /* BTDevice.swift in Sources */,
+				20D3B3352321CB7200D8FDFD /* ARNavigationController.swift in Sources */,
 				20250F33229DD8390026FE8C /* HalfModalTransitionAnimator.swift in Sources */,
 				20250F31229DD82E0026FE8C /* HalfModalInteractiveTransition.swift in Sources */,
 			);
@@ -448,7 +452,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6WUX73WU7P;
 				INFOPLIST_FILE = Game.UP/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -468,7 +472,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6WUX73WU7P;
 				INFOPLIST_FILE = Game.UP/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
