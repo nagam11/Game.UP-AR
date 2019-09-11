@@ -109,7 +109,7 @@ bool B4_highlight_type = false;
 /** ==================================================================**/
 CapacitiveSensor   B1_Touch = CapacitiveSensor(4, 32);       // 10M resistor between B1_LEDs 4 & 32, B1_LED 32 is sensor B2_LED.
 CapacitiveSensor   B2_Touch = CapacitiveSensor(4, 33);       // 10M resistor between B2_LEDs 4 & 33 
-CapacitiveSensor   B3_Touch = CapacitiveSensor(4, 27);       // 10M resistor between B3_LEDs 4 & 27 
+CapacitiveSensor   B3_Touch = CapacitiveSensor(4, 27);       // 10M resistor b etween B3_LEDs 4 & 27 
 CapacitiveSensor   B4_Touch = CapacitiveSensor(4, 14);       // 10M resistor between B4_LEDs 4 & 14
 CapacitiveSensor   B5_Touch = CapacitiveSensor(4, 13);       // 10M resistor between B5_LEDs 4 & 13
 CapacitiveSensor   B6_Touch = CapacitiveSensor(4, 0);        // 10M resistor between B6_LEDs 4 & 0

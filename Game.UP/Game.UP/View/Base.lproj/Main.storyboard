@@ -70,15 +70,8 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BrB-h1-WRS">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                             </arscnView>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3PI-ay-Lz8">
-                                <rect key="frame" x="272" y="518" width="32" height="30"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="rtN-co-YWz">
-                                <rect key="frame" x="195" y="497" width="109" height="32"/>
+                                <rect key="frame" x="195" y="498" width="109" height="31"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="109" id="sDS-Oh-Nrz"/>
@@ -93,7 +86,7 @@
                                 </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="IHZ-UO-NAE">
-                                <rect key="frame" x="28" y="497" width="121" height="32"/>
+                                <rect key="frame" x="189" y="446" width="121" height="32"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <segments>
                                     <segment title="Use"/>
@@ -115,11 +108,14 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ie2-g2-I43">
-                                <rect key="frame" x="261" y="0.0" width="43" height="36"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <rect key="frame" x="247" y="20" width="51" height="40"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
                                 <state key="normal" title="Reset">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="resetController:" destination="BV1-FR-VrT" eventType="touchUpInside" id="BfQ-Bm-eTo"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qei-yf-KVP">
                                 <rect key="frame" x="252" y="130" width="46" height="30"/>
@@ -129,25 +125,61 @@
                                     <action selector="testButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="I0x-21-2Ne"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NIQ-Qs-SbT">
+                                <rect key="frame" x="22" y="498" width="53" height="30"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                <state key="normal" title="Filter">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="filterButtonClicked:" destination="BV1-FR-VrT" eventType="touchUpInside" id="rvu-NL-9gd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJO-T0-HSh">
+                                <rect key="frame" x="16" y="20" width="126" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                <state key="normal" title="Stop Filtering">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopFilteringClicked:" destination="BV1-FR-VrT" eventType="touchUpInside" id="6WD-dZ-gl5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFW-Ne-Xvk">
+                                <rect key="frame" x="233" y="488" width="77" height="40"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                <state key="normal" title="Manage">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="manageClicked:" destination="BV1-FR-VrT" eventType="touchUpInside" id="dkr-k8-912"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Ie2-g2-I43" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" id="4ec-Jf-eWg"/>
+                            <constraint firstItem="NIQ-Qs-SbT" firstAttribute="centerY" secondItem="rtN-co-YWz" secondAttribute="centerY" id="0O7-rv-S8B"/>
+                            <constraint firstItem="Ie2-g2-I43" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="20" id="4ec-Jf-eWg"/>
                             <constraint firstAttribute="trailing" secondItem="BrB-h1-WRS" secondAttribute="trailing" id="AJF-Zo-4Re"/>
-                            <constraint firstItem="Ie2-g2-I43" firstAttribute="trailing" secondItem="rtN-co-YWz" secondAttribute="trailing" id="Bd0-74-bjh"/>
+                            <constraint firstItem="Ie2-g2-I43" firstAttribute="trailing" secondItem="rtN-co-YWz" secondAttribute="trailing" constant="-6" id="Bd0-74-bjh"/>
+                            <constraint firstItem="NIQ-Qs-SbT" firstAttribute="leading" secondItem="SUt-eB-Etg" secondAttribute="leading" id="HHq-9i-mSn"/>
                             <constraint firstItem="SUt-eB-Etg" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="22" id="Mpc-mW-naf"/>
-                            <constraint firstItem="rtN-co-YWz" firstAttribute="trailing" secondItem="3PI-ay-Lz8" secondAttribute="trailing" id="OTu-1d-qf7"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="U0K-SW-4ec" secondAttribute="leading" id="OV2-ir-zQd"/>
-                            <constraint firstItem="rtN-co-YWz" firstAttribute="leading" secondItem="IHZ-UO-NAE" secondAttribute="trailing" constant="46" id="PGo-Bz-cou"/>
+                            <constraint firstItem="rtN-co-YWz" firstAttribute="leading" secondItem="IHZ-UO-NAE" secondAttribute="trailing" constant="-115" id="PGo-Bz-cou"/>
                             <constraint firstItem="rtN-co-YWz" firstAttribute="trailing" secondItem="U0K-SW-4ec" secondAttribute="trailingMargin" id="QFL-Pl-4xo"/>
-                            <constraint firstAttribute="bottom" secondItem="IHZ-UO-NAE" secondAttribute="bottom" constant="20" symbolic="YES" id="dOw-vb-ziD"/>
+                            <constraint firstItem="NIQ-Qs-SbT" firstAttribute="top" secondItem="IHZ-UO-NAE" secondAttribute="bottom" constant="21" id="SlS-KT-nb4"/>
+                            <constraint firstItem="CFW-Ne-Xvk" firstAttribute="trailing" secondItem="IHZ-UO-NAE" secondAttribute="trailing" id="V8d-Ms-On7"/>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="NIQ-Qs-SbT" secondAttribute="bottom" constant="20" id="WvM-pe-CxE"/>
+                            <constraint firstAttribute="bottom" secondItem="IHZ-UO-NAE" secondAttribute="bottom" constant="71" id="dOw-vb-ziD"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="edT-Av-45L"/>
-                            <constraint firstItem="IHZ-UO-NAE" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="28" id="fPH-yK-1YL"/>
+                            <constraint firstItem="IHZ-UO-NAE" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="189" id="fPH-yK-1YL"/>
                             <constraint firstItem="SUt-eB-Etg" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="71" id="gFN-8c-6UT"/>
                             <constraint firstItem="SUt-eB-Etg" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="gT4-on-1Yo"/>
+                            <constraint firstItem="CFW-Ne-Xvk" firstAttribute="bottom" secondItem="rtN-co-YWz" secondAttribute="bottom" id="kbq-er-XwC"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="m8v-lj-Fkl"/>
-                            <constraint firstItem="IHZ-UO-NAE" firstAttribute="baseline" secondItem="rtN-co-YWz" secondAttribute="baseline" id="nIB-fU-iuW"/>
-                            <constraint firstItem="rtN-co-YWz" firstAttribute="bottom" secondItem="3PI-ay-Lz8" secondAttribute="bottom" id="xZN-4d-NE9"/>
+                            <constraint firstItem="NIQ-Qs-SbT" firstAttribute="bottom" secondItem="rtN-co-YWz" secondAttribute="bottom" id="n9y-tu-QHM"/>
+                            <constraint firstItem="IHZ-UO-NAE" firstAttribute="baseline" secondItem="rtN-co-YWz" secondAttribute="baseline" constant="-51.5" id="nIB-fU-iuW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
@@ -156,12 +188,12 @@
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
                         <outlet property="segmentAddMode" destination="rtN-co-YWz" id="fLX-LP-jUH"/>
                         <outlet property="segmentType" destination="IHZ-UO-NAE" id="qNb-Ab-vNT"/>
-                        <outlet property="textOverlay" destination="3PI-ay-Lz8" id="fFN-US-vZb"/>
+                        <outlet property="stopFilteringButton" destination="iJO-T0-HSh" id="zPv-7a-GVS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7294" y="-371"/>
+            <point key="canvasLocation" x="7293.75" y="-371.83098591549299"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="OcW-B5-vb8">

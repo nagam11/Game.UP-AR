@@ -13,20 +13,23 @@ import UserNotifications
 
 class ARViewController: UIViewController, ARSCNViewDelegate {
     
+    // Variable for updating the ESP32 board via BLE
     var device: BTDevice? {
         didSet {
             device?.delegate = self
         }
     }
     
-    @IBOutlet var sceneView: ARSCNView!
-    @IBOutlet weak var textOverlay: UITextField!
-    
+    // IBOutlets
+    @IBOutlet var sceneView: ARSCNView!    
     @IBOutlet weak var segmentAddMode: UISegmentedControl!
     @IBOutlet weak var segmentType: UISegmentedControl!
     @IBOutlet weak var informationTextView: UITextView!
+    @IBOutlet weak var stopFilteringButton: UIButton!
     //Only one building can be selected at one time or no building
     var selectedBuilding: Int?
+    // Static information regarding buildings
+    var buildingsInformation = [["Residential", "1996"],["Office", "2010"],[],["Residental", "2010"],[],["Office", "2010"]]
     
     //var cubeSize = (0.038, 0.015, 0.034)
     var cubeSize = (0.076, 0.030, 0.068)
@@ -43,8 +46,12 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     var modelCoordinate = simd_float4x4.init()
     var addMode = true
     var enoughFeature = false
+    //Variables for demo
     var entryPopUpShown = false
     var selectOtherBuildingShown = false
+    var filterBuildingsShown = false
+    var markerScanned = false
+    var numberOfSelectedBuildings = 0
     
     //Info nodes
     var boxNode = SCNNode()
@@ -97,7 +104,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         self.b4_third_box = SCNNode()
         self.b4_forth_box = SCNNode()
         self.b4_fifth_box = SCNNode()
-        
+        self.stopFilteringButton.isHidden = true
         self.informationTextView.isHidden = true
         self.informationTextView.layer.opacity = 0.7
         self.informationTextView.layer.cornerRadius = 12
@@ -106,14 +113,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         self.segmentAddMode.layer.cornerRadius = 9
         self.segmentAddMode.layer.opacity = 0.8
         self.segmentType.layer.opacity = 0.8
-        
         self.segmentType.layer.borderWidth = 0.0
-        
-        //self.segmentAddMode.layer.borderColor = UIColor.white.cgColor
         self.segmentAddMode.layer.borderWidth = 0.0
-        
-        // self.segmentType.layer.masksToBounds = true
-        //self.segmentAddMode.layer.masksToBounds = true
+        self.segmentType.isHidden = true
+        self.segmentAddMode.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,7 +131,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         guard let refImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: Bundle.main) else {
             fatalError("Missing expected asset catalog resources.")
         }
@@ -144,24 +146,87 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
     
-    func createTextNode(title: String, size: CGFloat, x: Float, y: Float){
-        let text = SCNText(string: title, extrusionDepth: 0)
-        text.firstMaterial?.diffuse.contents = UIColor.white
-        text.font = UIFont(name: "Avenir Next", size: size)
-        let textNode = SCNNode(geometry: text)
-        textNode.position.x = boxNode.position.x - x
-        textNode.position.y = boxNode.position.y - y
-        textNode.position.z = boxNode.position.z
-        self.sceneView.scene.rootNode.addChildNode(textNode)
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // Pause the view's session
         sceneView.session.pause()
     }
     @IBAction func resetController(_ sender: UIButton) {
+        // TODO: add code
+    }
+    
+    @IBAction func stopFilteringClicked(_ sender: UIButton) {
+        self.turnOffAllBuilding()
+        self.selectedBuilding = nil
+        self.informationTextView.isHidden = true
+        self.stopFilteringButton.isHidden = true
+    }
+    
+    /**
+        This method handles requests for adding of deleting buildings.
+     */
+    @IBAction func manageClicked(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Do you want to add or delete", message: "Choose if you want to add or delete stories or whole AR buildings", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: {action in
+                       print("Add selected")
+                       self.informationTextView.isHidden = false
+                       self.informationTextView.text = "Add Mode"
+                        self.addMode = true
+                        self.scanQRAlert()
+        }))
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: {action in
+                       print("Delete selected")
+                       self.informationTextView.isHidden = false
+                       self.informationTextView.text = "Delete Mode"
+                        self.addMode = false
+                        self.scanQRAlert()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+            print("Cancel selected")
+        }))
+        self.present(alert, animated: true)
+    }
+    
+    @IBAction func filterButtonClicked(_ sender: UIButton) {
+        if (self.selectedBuilding != nil){
+            let alert = UIAlertController(title: "How do you want to filter", message: "Choose how you want to filter other buildings based on the selected one.", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Role", style: .default, handler: {action in
+                print("Role filtering selected")
+                self.informationTextView.isHidden = false
+                self.stopFilteringButton.isHidden = false
+                self.informationTextView.text = "Filtering by role:  \(self.buildingsInformation[self.selectedBuilding!][0])"
+                // Light up buildings with the same role including myself
+                for (index, building) in self.buildingsInformation.enumerated(){
+                    if (building.count != 0){
+                        if(building[0] == self.buildingsInformation[self.selectedBuilding!][0]){
+                            self.lightUpBuilding(color: 1, building: index)
+                        }
+                    }
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "Age", style: .default, handler: {action in
+                print("Age filtering selected")
+                self.informationTextView.isHidden = false
+                self.stopFilteringButton.isHidden = false
+                self.informationTextView.text = "Filtering by age:  \(self.buildingsInformation[self.selectedBuilding!][1])"
+                // TODO: implement Dates and not Strings for age
+                // Light up buildings with the same age including myself
+                for (index, building) in self.buildingsInformation.enumerated(){
+                    if (building.count != 0){
+                        if(building[1] == self.buildingsInformation[self.selectedBuilding!][1]){
+                            self.lightUpBuilding(color: 2, building: index)
+                        }                        
+                    }
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+                print("Cancel selected")
+            }))
+            self.present(alert, animated: true)
+        } else {
+            let alert = UIAlertController(title: "Please select a building first", message: "Select a building in order to filter other buildings around it.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }
     }
     
     @IBAction func didChangeAdding(_ sender: UISegmentedControl) {
@@ -178,8 +243,9 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             self.informationTextView.text = "You are in delete mode."
         }
     }
+    //TODO: hide test button for demo
     @IBAction func testButton(_ sender: UIButton) {
-        self.deviceTouchChanged(value: 1)
+        self.deviceTouchChanged(value: 0)
     }
     
     @IBAction func didChangeType(_ sender: UISegmentedControl) {
@@ -195,7 +261,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             device?.b4_led = 2
             self.informationTextView.isHidden = false
             self.informationTextView.text = "All buldings older than 50 years shown."
-            
         }
     }
     
@@ -227,7 +292,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     }
     
     // MARK: - ARSCNViewDelegate
-    
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         DispatchQueue.main.async {
             
@@ -246,69 +310,68 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        
+        // Marker has been detected
         if anchor is ARImageAnchor {
-            //self.modelCoordinate = anchor.transform
-            let anchor = anchor as! ARImageAnchor
-            let name = anchor.referenceImage.name!
-            sceneView.session.setWorldOrigin(relativeTransform: anchor.transform)
             print("MARKER DETECTED")
+            self.markerScanned = true
+            let anchor = anchor as! ARImageAnchor
+            // Set current origin to the markers position. Prerequisite: Marker is static
+            sceneView.session.setWorldOrigin(relativeTransform: anchor.transform)
             
-            //print(frame?.camera.trackingState)
-            /*var box = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-             box.firstMaterial?.diffuse.contents = UIColor.blue
-             let node = SCNNode(geometry: box)
-             node.position = SCNVector3(self.modelCoordinate.columns.3.x,self.modelCoordinate.columns.3.y + 0.1,self.modelCoordinate.columns.3.z)
-             let rotationAction = SCNAction.rotateBy(x: 0, y: 0.5, z: 0, duration: 1)
-             let inifiniteAction = SCNAction.repeatForever(rotationAction)
-             node.runAction(inifiniteAction)
-             self.sceneView.scene.rootNode.addChildNode(node)*/
-            
-            /* //create a transparent gray layer
-             let box_2 = SCNBox(width: 0.3, height: 0.3, length: 0.005, chamferRadius: 0)
-             box_2.firstMaterial?.diffuse.contents = UIColor.gray
-             boxNode = SCNNode(geometry: box_2)
-             boxNode.opacity = 0.4
-             boxNode.position = SCNVector3(self.modelCoordinate.columns.3.x,self.modelCoordinate.columns.3.y + 0.4,self.modelCoordinate.columns.3.z)
-             self.sceneView.scene.rootNode.addChildNode(boxNode)
-             */
-            //if ( self.enoughFeature){
+            //TODO: DELETE TESTING DIGITAL BUILDINGS
             let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
             story.firstMaterial?.diffuse.contents = UIColor.gray
             let storyNode = SCNNode(geometry: story)
             storyNode.opacity = 0.8
-            //storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.03 ,self.modelCoordinate.columns.3.z - 0.03)
-            storyNode.position = SCNVector3Make(-0.02, 0.055, -0.12)
+            storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.03 ,self.modelCoordinate.columns.3.z - 0.03)
+            //storyNode.position = SCNVector3Make(-0.02, 0.055, -0.12)
             //storyNode.position = SCNVector3Make(-0.05, -0.09, -0.2)
             //storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y ,self.modelCoordinate.columns.3.z - 0.03)
             self.b5_first_floor.addChildNode(storyNode)
             self.sceneView.scene.rootNode.addChildNode(self.b5_first_floor)
-            //}
-            
-            /*let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-             storyDivider.firstMaterial?.diffuse.contents = UIColor.black
-             let storyDividerNode = SCNNode(geometry: storyDivider)
-             storyDividerNode.opacity = 1
-             // storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x + 0.15,self.modelCoordinate.columns.3.y + 0.015,self.modelCoordinate.columns.3.z)
-             storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x ,self.modelCoordinate.columns.3.y + 0.01,self.modelCoordinate.columns.3.z - 0.03)
-             self.b5_first_floor.addChildNode(storyDividerNode)
-             self.sceneView.scene.rootNode.addChildNode(self.b5_first_floor)
-             /*==============================================================*/
-             let story_2 = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-             story_2.firstMaterial?.diffuse.contents = UIColor.gray
-             let storyNode_2 = SCNNode(geometry: story_2)
-             storyNode_2.opacity = 0.8
-             storyNode_2.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.02 ,self.modelCoordinate.columns.3.z - 0.03)
-             self.b5_second_floor!.addChildNode(storyNode_2)
-             
-             let storyDivider_2 = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-             storyDivider_2.firstMaterial?.diffuse.contents = UIColor.black
-             let storyDividerNode_2 = SCNNode(geometry: storyDivider_2)
-             storyDividerNode_2.opacity = 1
-             storyDividerNode_2.position = SCNVector3(self.modelCoordinate.columns.3.x ,self.modelCoordinate.columns.3.y + 0.03,self.modelCoordinate.columns.3.z - 0.03)
-             self.b5_second_floor!.addChildNode(storyDividerNode_2)
-             self.sceneView.scene.rootNode.addChildNode(self.b5_second_floor!)
-             */
+        }
+    }
+    
+    func createTextNode(title: String, size: CGFloat, x: Float, y: Float){
+          let text = SCNText(string: title, extrusionDepth: 0)
+          text.firstMaterial?.diffuse.contents = UIColor.white
+          text.font = UIFont(name: "Avenir Next", size: size)
+          let textNode = SCNNode(geometry: text)
+          textNode.position.x = boxNode.position.x - x
+          textNode.position.y = boxNode.position.y - y
+          textNode.position.z = boxNode.position.z
+          self.sceneView.scene.rootNode.addChildNode(textNode)
+      }
+    /**
+     This method shows an alert to inform the user that he/she has to scan a marker before adding AR content
+     */
+    func scanQRAlert() {
+        if(self.markerScanned){
+        let alert = UIAlertController(title: "Please scan the QR Code", message: "Please slowly scan the QR code from above. Make sure the virtual cubes aligns with the physical cube. If not click on reset and scan again! ", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
+        self.present(alert, animated: true)
+        }
+    }
+    /**
+    Lights up a given bulding with specific color
+
+    - Parameter color: Color to be shown
+     
+    - Parameter building: Building as index
+    */
+    func lightUpBuilding(color : Int, building: Int){
+        switch building {
+        case 0:
+            device?.b1_led = color
+        case 1:
+            device?.b2_led = color
+        case 3:
+            device?.b4_led = color
+        case 5:
+            device?.b6_led = color
+        default:
+            print("Invalid building to light up")
+            return
         }
     }
     
@@ -319,7 +382,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
 extension ARViewController {
     
     /**
-     This functions light up in blue only  the selected building if there is any selected. It turns off all other selections.
+     This functions light up in blue only the selected building if there is any selected. It turns off all other selections. It also initates the  demo alerts.
      */
     func showSelectedBuilding(){
         //Make sure to turn off all other LEDs
@@ -327,47 +390,45 @@ extension ARViewController {
         let navigationVC = storyboard?.instantiateViewController(withIdentifier: "ARNavigationVC") as! ARNavigationController
         let modalVC = navigationVC.viewControllers.first as! ARModalViewController
         if let selectedBuilding = self.selectedBuilding {
+            numberOfSelectedBuildings += 1
+            modalVC.bN = "B\(selectedBuilding + 1)"
             switch selectedBuilding {
             case 0:
                 device?.b1_led = 3
-                modalVC.bN = "B1"
-                modalVC.bT = "Residential"
-                modalVC.bY = "1996"
-                navigationVC.modalPresentationStyle = .currentContext
-                self.present(navigationVC, animated: true, completion: nil)
-            // TODO: fix half modal
             case 1:
                 device?.b2_led = 3
-                modalVC.bN = "B2"
-                modalVC.bT = "Office"
-                modalVC.bY = "2010"
             case 3:
                 device?.b4_led = 3
-                modalVC.bN = "B4"
-                modalVC.bT = "Residential"
-                modalVC.bY = "2001"
             case 5:
                 device?.b6_led = 3
-                modalVC.bN = "B6"
-                modalVC.bT = "Office"
-                modalVC.bY = "2013"
             default:
                 print("Invalid building to light up")
                 return
             }
-            show(navigationVC, sender: self)
+            modalVC.bT = self.buildingsInformation[selectedBuilding][0]
+            modalVC.bY = self.buildingsInformation[selectedBuilding][1]
+            navigationVC.modalPresentationStyle = .currentContext
+            self.present(navigationVC, animated: true, completion: nil)
+            // TODO: fix half modal
+            //show(navigationVC, sender: self)
         }
     }
     
     /**
-    This functions shows a popup for selecting another building. Part of demo
-    */
+     This functions shows a popup for selecting another building and for filtering buildings. Part of demo
+     */
     func showSelectNextBuildingPopUp(){
         if(!self.selectOtherBuildingShown){
-            let alert = UIAlertController(title: "Select another building", message: "Select another building or click the same building to deselect.", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Select another building", message: "Select another building or click on the same building to deselect.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
             self.present(alert, animated: true)
             self.selectOtherBuildingShown = true
+        } else if (self.numberOfSelectedBuildings > 2 && !self.filterBuildingsShown){
+            print(self.numberOfSelectedBuildings)
+            let alert = UIAlertController(title: "Filter buildings", message: "Click on the filter button below to filter buildings by age or role.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
+            self.present(alert, animated: true)
+            self.filterBuildingsShown = true
         }
     }
     
@@ -381,7 +442,9 @@ extension ARViewController {
         device?.b6_led = 0
     }
     
-    // This method creates a cube object and adds it to the scene.
+    /**
+     This method creates a cube object and adds it to the scene.
+     */
     func createCube(color: UIColor, nextMaterial: Bool, multiplier: Double) {
         let box = SCNBox(width: CGFloat(self.cubeSize.0 + multiplier), height: CGFloat(self.cubeSize.1 + multiplier), length: CGFloat(self.cubeSize.2 + multiplier), chamferRadius: 0.0)
         box.firstMaterial?.diffuse.contents = UIColor.white
@@ -402,24 +465,6 @@ extension ARViewController {
     }
 }
 
-// MARK: - Server
-extension ARViewController {
-    
-    func sendHTTPMessage(command: String){
-        let url = URL(string: "\(self.clientPath)\(command)")
-        print(url?.absoluteString as! String)
-        let task = URLSession.shared.dataTask(with: url!) {(data, response, error) in
-            guard error == nil else {
-                print("ERROR : \(error!)")
-                return
-            }
-            do {print("Message: \(command) was sent")}
-        }
-        task.resume()
-        self.address = ""
-        self.command = ""
-    }
-}
 extension ARViewController: BTDeviceDelegate {
     func deviceB4Changed(value: Int) {
         print("B4 clicked")
@@ -433,6 +478,7 @@ extension ARViewController: BTDeviceDelegate {
     }
     
     func deviceLongTouchB4Changed(value: Int) {
+           if(self.markerScanned){
         if(self.addMode){
             switch value {
             case 1:
@@ -502,10 +548,11 @@ extension ARViewController: BTDeviceDelegate {
                 return;
             }
             
-        }
+        }}
     }
     
     func deviceLongTouchB5Changed(value: Int) {
+        if(self.markerScanned){
         if(self.addMode){
             switch value {
             case 1:
@@ -599,8 +646,8 @@ extension ARViewController: BTDeviceDelegate {
             default:
                 return;
             }
-            
         }
+    }
     }
     
     func deviceSerialChanged(value: String) {
@@ -614,16 +661,13 @@ extension ARViewController: BTDeviceDelegate {
     // Send value according to the building touched (single touch)
     func deviceTouchChanged(value: Int) {
         print("B\(value + 1) selected.")
-        if let selectedBuilding = self.selectedBuilding{
-            // If user has clicked on the same building, deselect that building and turn off everything.
-            if (selectedBuilding == value){
-                self.selectedBuilding = nil
-                self.turnOffAllBuilding()
-            } else {
-                self.selectedBuilding = value
-                showSelectedBuilding()
-            }
-        }
+        /* if let selectedBuilding = self.selectedBuilding{
+         if (selectedBuilding == value){
+         self.selectedBuilding = nil
+         self.turnOffAllBuilding()
+         } */
+        self.selectedBuilding = value
+        showSelectedBuilding()
     }
     
     func deviceConnected() {
