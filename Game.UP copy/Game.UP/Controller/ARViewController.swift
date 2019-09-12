@@ -59,14 +59,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     var boxNode = SCNNode()
     
     //Floor nodes
-    /*var b5_first_floor = SCNNode()
+    var b5_first_floor = SCNNode()
     var b5_second_floor: SCNNode? = nil
     var b5_third_floor = SCNNode()
     var b5_first_box: SCNNode? = nil
     var b5_second_box: SCNNode? = nil
     var b5_third_box: SCNNode? = nil
     var b5_forth_box: SCNNode? = nil
-    var b5_forth_floor = SCNNode()*/
+    var b5_forth_floor = SCNNode()
     var calibrationNode = SCNNode()
     
     var b4_floors = [SCNNode(), SCNNode(), SCNNode(), SCNNode(), SCNNode()]
@@ -97,10 +97,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         
         // Set the scene to the view
         sceneView.scene = scene
-       /* self.b5_second_floor = SCNNode()
+        self.b5_second_floor = SCNNode()
         self.b5_first_box = SCNNode()
         self.b5_second_box = SCNNode()
-        self.b5_third_box = SCNNode()*/
+        self.b5_third_box = SCNNode()
         self.stopFilteringButton.isHidden = true
         self.informationTextView.isHidden = true
         self.informationTextView.layer.opacity = 0.7
@@ -255,15 +255,17 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             return
         }
         //TODO: here
-        let clickedNode = self.b4_boxes[2]
-        if clickedNode == result.node {
+        if let clickedNode = self.b5_second_box, clickedNode == result.node {
             print("second floor of B5 clicked")
-            clickedNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+            clickedNode.geometry?.firstMaterial?.diffuse.contents = UIColor.green
+            self.b5_first_box?.geometry?.firstMaterial?.diffuse.contents = UIColor.green
+            self.b5_second_box?.geometry?.firstMaterial?.diffuse.contents = UIColor.green
             if b4_boxes.count > 0 {
                 for box in b4_boxes {
-                    box.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+                    box.geometry?.firstMaterial?.diffuse.contents = UIColor.green
                 }
             }
+            //device?.b6_led = true
             device?.b4_led = 1
             self.informationTextView.isHidden = false
         }
@@ -347,37 +349,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             device?.b1_led = color
         case 1:
             device?.b2_led = color
-        case 2:
-            if b3_boxes.count > 0 {
-                for box in b3_boxes {
-                    if (color == 1){
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.green
-                    } else if (color == 2){
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-                    }
-                }
-            }
         case 3:
             device?.b4_led = color
-            if b4_boxes.count > 0 {
-                for box in b4_boxes {
-                    if (color == 1){
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.green
-                    } else if (color == 2){
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-                    }
-                }
-            }
-        case 4:
-            if b5_boxes.count > 0 {
-                for box in b5_boxes {
-                    if (color == 1){
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.green
-                    } else if (color == 2){
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-                    }
-                }
-            }
         case 5:
             device?.b6_led = color
         default:
@@ -413,7 +386,7 @@ extension ARViewController {
             case 2:
                 if b3_boxes.count > 0 {
                     for box in b3_boxes {
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.green
                     }
                 }
             case 3:
@@ -422,13 +395,13 @@ extension ARViewController {
                 
                 if b4_boxes.count > 0 {
                     for box in b4_boxes {
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.green
                     }
                 }
             case 4:
                 if b5_boxes.count > 0 {
                     for box in b5_boxes {
-                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+                        box.geometry?.firstMaterial?.diffuse.contents = UIColor.green
                     }
                 }
             case 5:
@@ -783,13 +756,13 @@ extension ARViewController: BTDeviceDelegate {
                 
                 switch value {
                 case 1:
-                     self.b5_floors[3].removeFromParentNode()
+                    self.b5_forth_floor.removeFromParentNode()
                 case 2:
-                    self.b5_floors[2].removeFromParentNode()
+                    self.b5_third_floor.removeFromParentNode()
                 case 3:
-                    self.b5_floors[1].removeFromParentNode()
+                    self.b5_second_floor!.removeFromParentNode()
                 case 4:
-                    self.b5_floors[0].removeFromParentNode()
+                    self.b5_first_floor.removeFromParentNode()
                 default:
                     return;
                 }

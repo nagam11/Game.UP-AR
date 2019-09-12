@@ -1,0 +1,29 @@
+{
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
+  "resources" : [
+    {
+      "filename" : "iphone-4.arreferenceimage"
+    },
+    {
+      "filename" : "iphone-5.5.arreferenceimage"
+    },
+    {
+      "filename" : "iphone-x.arreferenceimage"
+    },
+    {
+      "filename" : "london-2-ubicomp.arreferenceimage"
+    },
+    {
+      "filename" : "london-3.arreferenceimage"
+    },
+    {
+      "filename" : "qr-code-ubi.arreferenceimage"
+    },
+    {
+      "filename" : "qrcode.arreferenceimage"
+    }
+  ]
+}
