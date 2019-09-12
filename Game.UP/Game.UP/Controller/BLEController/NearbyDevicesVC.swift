@@ -59,6 +59,9 @@ class NearbyDevicesVC: UITableViewController {
         let vc = storyboard?.instantiateViewController(withIdentifier: "DeviceVC") as! DeviceVC
         vc.device = device
         device.connect()
+        //vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .currentContext
+        self.present(vc, animated: true, completion: nil)
         show(vc, sender: self)
     }
 }

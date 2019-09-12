@@ -70,33 +70,6 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BrB-h1-WRS">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                             </arscnView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="rtN-co-YWz">
-                                <rect key="frame" x="195" y="498" width="109" height="31"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="109" id="sDS-Oh-Nrz"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Add"/>
-                                    <segment title="Delete"/>
-                                </segments>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="didChangeAdding:" destination="BV1-FR-VrT" eventType="valueChanged" id="AUy-WV-Ksq"/>
-                                </connections>
-                            </segmentedControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="IHZ-UO-NAE">
-                                <rect key="frame" x="189" y="446" width="121" height="32"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <segments>
-                                    <segment title="Use"/>
-                                    <segment title="Age"/>
-                                </segments>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="didChangeType:" destination="BV1-FR-VrT" eventType="valueChanged" id="GLG-ht-bhb"/>
-                                </connections>
-                            </segmentedControl>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Residential buildings selected." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SUt-eB-Etg">
                                 <rect key="frame" x="22" y="71" width="276" height="43"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -117,9 +90,8 @@
                                     <action selector="resetController:" destination="BV1-FR-VrT" eventType="touchUpInside" id="BfQ-Bm-eTo"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qei-yf-KVP">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qei-yf-KVP">
                                 <rect key="frame" x="252" y="130" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="testButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="I0x-21-2Ne"/>
@@ -135,9 +107,8 @@
                                     <action selector="filterButtonClicked:" destination="BV1-FR-VrT" eventType="touchUpInside" id="rvu-NL-9gd"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJO-T0-HSh">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJO-T0-HSh">
                                 <rect key="frame" x="16" y="20" width="126" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
                                 <state key="normal" title="Stop Filtering">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -159,36 +130,32 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="NIQ-Qs-SbT" firstAttribute="centerY" secondItem="rtN-co-YWz" secondAttribute="centerY" id="0O7-rv-S8B"/>
                             <constraint firstItem="Ie2-g2-I43" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="20" id="4ec-Jf-eWg"/>
                             <constraint firstAttribute="trailing" secondItem="BrB-h1-WRS" secondAttribute="trailing" id="AJF-Zo-4Re"/>
-                            <constraint firstItem="Ie2-g2-I43" firstAttribute="trailing" secondItem="rtN-co-YWz" secondAttribute="trailing" constant="-6" id="Bd0-74-bjh"/>
+                            <constraint firstItem="Ie2-g2-I43" firstAttribute="trailing" secondItem="SUt-eB-Etg" secondAttribute="trailing" id="AwT-Cd-9Lz"/>
+                            <constraint firstItem="Ie2-g2-I43" firstAttribute="baseline" secondItem="iJO-T0-HSh" secondAttribute="baseline" id="Brh-PW-ios"/>
                             <constraint firstItem="NIQ-Qs-SbT" firstAttribute="leading" secondItem="SUt-eB-Etg" secondAttribute="leading" id="HHq-9i-mSn"/>
+                            <constraint firstItem="CFW-Ne-Xvk" firstAttribute="bottom" secondItem="NIQ-Qs-SbT" secondAttribute="bottom" id="Hfe-BC-bTB"/>
+                            <constraint firstItem="iJO-T0-HSh" firstAttribute="leading" secondItem="U0K-SW-4ec" secondAttribute="leadingMargin" id="L8z-vG-5GN"/>
                             <constraint firstItem="SUt-eB-Etg" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="22" id="Mpc-mW-naf"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="U0K-SW-4ec" secondAttribute="leading" id="OV2-ir-zQd"/>
-                            <constraint firstItem="rtN-co-YWz" firstAttribute="leading" secondItem="IHZ-UO-NAE" secondAttribute="trailing" constant="-115" id="PGo-Bz-cou"/>
-                            <constraint firstItem="rtN-co-YWz" firstAttribute="trailing" secondItem="U0K-SW-4ec" secondAttribute="trailingMargin" id="QFL-Pl-4xo"/>
-                            <constraint firstItem="NIQ-Qs-SbT" firstAttribute="top" secondItem="IHZ-UO-NAE" secondAttribute="bottom" constant="21" id="SlS-KT-nb4"/>
-                            <constraint firstItem="CFW-Ne-Xvk" firstAttribute="trailing" secondItem="IHZ-UO-NAE" secondAttribute="trailing" id="V8d-Ms-On7"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="NIQ-Qs-SbT" secondAttribute="bottom" constant="20" id="WvM-pe-CxE"/>
-                            <constraint firstAttribute="bottom" secondItem="IHZ-UO-NAE" secondAttribute="bottom" constant="71" id="dOw-vb-ziD"/>
+                            <constraint firstItem="Ie2-g2-I43" firstAttribute="trailing" secondItem="Qei-yf-KVP" secondAttribute="trailing" id="abj-mU-r96"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="edT-Av-45L"/>
-                            <constraint firstItem="IHZ-UO-NAE" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="189" id="fPH-yK-1YL"/>
                             <constraint firstItem="SUt-eB-Etg" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="71" id="gFN-8c-6UT"/>
                             <constraint firstItem="SUt-eB-Etg" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="gT4-on-1Yo"/>
-                            <constraint firstItem="CFW-Ne-Xvk" firstAttribute="bottom" secondItem="rtN-co-YWz" secondAttribute="bottom" id="kbq-er-XwC"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="m8v-lj-Fkl"/>
-                            <constraint firstItem="NIQ-Qs-SbT" firstAttribute="bottom" secondItem="rtN-co-YWz" secondAttribute="bottom" id="n9y-tu-QHM"/>
-                            <constraint firstItem="IHZ-UO-NAE" firstAttribute="baseline" secondItem="rtN-co-YWz" secondAttribute="baseline" constant="-51.5" id="nIB-fU-iuW"/>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="CFW-Ne-Xvk" secondAttribute="trailing" constant="10" id="myc-Jk-ML6"/>
+                            <constraint firstItem="Qei-yf-KVP" firstAttribute="top" secondItem="SUt-eB-Etg" secondAttribute="bottom" constant="16" id="nX0-hR-0Lb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
+                    <navigationItem key="navigationItem" id="HXx-eZ-kBF"/>
                     <connections>
                         <outlet property="informationTextView" destination="SUt-eB-Etg" id="lBo-0S-lik"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
-                        <outlet property="segmentAddMode" destination="rtN-co-YWz" id="fLX-LP-jUH"/>
-                        <outlet property="segmentType" destination="IHZ-UO-NAE" id="qNb-Ab-vNT"/>
                         <outlet property="stopFilteringButton" destination="iJO-T0-HSh" id="zPv-7a-GVS"/>
+                        <outlet property="testButton" destination="Qei-yf-KVP" id="lfr-KP-0zi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -400,7 +367,7 @@
         <!--Device-->
         <scene sceneID="bQO-Y8-ew2">
             <objects>
-                <viewController storyboardIdentifier="DeviceVC" id="j8s-Rp-63V" customClass="DeviceVC" customModule="Game_UP" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DeviceVCC" id="j8s-Rp-63V" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cDd-mN-UHi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -461,7 +428,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="ARView"/>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="presentation" identifier="sendDeviceSegue" id="yHT-Vg-VKB"/>
+                                    <segue destination="BV1-FR-VrT" kind="presentation" identifier="sendDeviceSeguee" id="yHT-Vg-VKB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oN5-i6-OW7">
@@ -475,9 +442,6 @@
                                 <rect key="frame" x="259" y="276" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Info"/>
-                                <connections>
-                                    <segue destination="1xE-HH-k5C" kind="presentation" id="2oI-Mm-NKJ"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -523,19 +487,19 @@
             </objects>
             <point key="canvasLocation" x="5422.5" y="-370.77464788732397"/>
         </scene>
-        <!--View Controller-->
+        <!--DeviceVC-->
         <scene sceneID="Qpx-8x-N7a">
             <objects>
-                <viewController id="1xE-HH-k5C" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DeviceVC" id="1xE-HH-k5C" customClass="DeviceVC" customModule="Game_UP" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2bX-6T-yfW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="5G6-1d-Y7Q">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cxp-EK-tr2">
-                                <rect key="frame" x="32" y="59" width="256" height="369"/>
+                                <rect key="frame" x="32" y="59" width="256" height="389"/>
                                 <string key="text">Welcome !
 
 In this demo, you will be able to interact with your phone or with the physical prototype in front of you.
@@ -548,13 +512,13 @@ If you get stuck or have difficulties click on the reset button on the right.</s
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYh-Qn-uUE">
-                                <rect key="frame" x="129" y="498" width="62" height="30"/>
+                                <rect key="frame" x="129" y="518" width="62" height="30"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Continue">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="presentation" id="xfc-7z-2lr"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" identifier="sendDeviceSegue" id="xfc-7z-2lr"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -663,6 +627,9 @@ If you get stuck or have difficulties click on the reset button on the right.</s
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rlh-oF-K2D">
+                                <rect key="frame" x="65" y="174" width="191" height="182"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -672,8 +639,11 @@ If you get stuck or have difficulties click on the reset button on the right.</s
                             <constraint firstItem="qhR-Go-4u1" firstAttribute="centerY" secondItem="kQi-k6-V6H" secondAttribute="centerY" id="OkH-wI-Cum"/>
                             <constraint firstItem="JU2-ot-JPP" firstAttribute="trailing" secondItem="qiu-yj-F4N" secondAttribute="trailing" id="PAX-gQ-4KR"/>
                             <constraint firstItem="kQi-k6-V6H" firstAttribute="top" secondItem="hP3-tY-1Lg" secondAttribute="top" constant="9" id="Rje-4w-44a"/>
+                            <constraint firstItem="rlh-oF-K2D" firstAttribute="leading" secondItem="hP3-tY-1Lg" secondAttribute="leading" constant="65" id="S6R-5e-ZZa"/>
                             <constraint firstItem="s5c-KJ-AXA" firstAttribute="leading" secondItem="Dlq-pk-QEU" secondAttribute="leading" id="TRW-Pj-hYI"/>
                             <constraint firstItem="JU2-ot-JPP" firstAttribute="leading" secondItem="qhR-Go-4u1" secondAttribute="leading" id="UwI-C0-Sqm"/>
+                            <constraint firstItem="rlh-oF-K2D" firstAttribute="centerX" secondItem="36s-cI-BZw" secondAttribute="centerX" id="aw1-Ee-t7T"/>
+                            <constraint firstItem="hP3-tY-1Lg" firstAttribute="bottom" secondItem="rlh-oF-K2D" secondAttribute="bottom" constant="212" id="buR-DB-d0K"/>
                             <constraint firstItem="Dlq-pk-QEU" firstAttribute="firstBaseline" secondItem="JU2-ot-JPP" secondAttribute="firstBaseline" id="dQp-Mt-KcV"/>
                             <constraint firstItem="JU2-ot-JPP" firstAttribute="leading" secondItem="qiu-yj-F4N" secondAttribute="leading" id="eUe-vM-PUT"/>
                             <constraint firstItem="kQi-k6-V6H" firstAttribute="leading" secondItem="36s-cI-BZw" secondAttribute="leadingMargin" id="hjc-Yy-hUk"/>
@@ -681,6 +651,7 @@ If you get stuck or have difficulties click on the reset button on the right.</s
                             <constraint firstItem="JU2-ot-JPP" firstAttribute="top" secondItem="qiu-yj-F4N" secondAttribute="bottom" constant="10" id="jCb-mm-SWI"/>
                             <constraint firstItem="Dlq-pk-QEU" firstAttribute="top" secondItem="s5c-KJ-AXA" secondAttribute="bottom" constant="8" id="jJh-Ec-Mo3"/>
                             <constraint firstItem="JU2-ot-JPP" firstAttribute="trailing" secondItem="qhR-Go-4u1" secondAttribute="trailing" id="jOt-e6-O8i"/>
+                            <constraint firstItem="rlh-oF-K2D" firstAttribute="top" secondItem="Dlq-pk-QEU" secondAttribute="bottom" constant="33" id="qUY-4r-sRy"/>
                             <constraint firstItem="kQi-k6-V6H" firstAttribute="leading" secondItem="s5c-KJ-AXA" secondAttribute="leading" id="xJb-DF-gRM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hP3-tY-1Lg"/>
@@ -701,6 +672,7 @@ If you get stuck or have difficulties click on the reset button on the right.</s
                         <outlet property="buildingName" destination="qhR-Go-4u1" id="VR3-Rc-hB6"/>
                         <outlet property="buildingType" destination="qiu-yj-F4N" id="2uH-1R-fkn"/>
                         <outlet property="buildingYear" destination="JU2-ot-JPP" id="Fg8-jG-pOt"/>
+                        <outlet property="image" destination="rlh-oF-K2D" id="IHv-Gc-HFT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Os-B1-geX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -717,6 +689,6 @@ If you get stuck or have difficulties click on the reset button on the right.</s
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mjo-j6-lDT"/>
-        <segue reference="yHT-Vg-VKB"/>
+        <segue reference="xfc-7z-2lr"/>
     </inferredMetricsTieBreakers>
 </document>

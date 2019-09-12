@@ -10,18 +10,21 @@ import UIKit
 
 class ARModalViewController: UIViewController, HalfModalPresentable {
   
+    @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var buildingName: UILabel!
     @IBOutlet weak var buildingType: UILabel!
     @IBOutlet weak var buildingYear: UILabel!
     var bN = ""
     var bT = ""
     var bY = ""
+    var pImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.buildingName.text = bN
         self.buildingType.text = bT
         self.buildingYear.text = bY
+        self.image.image = pImage!
     }
     
     @IBAction func maximizeButtonTapper(_ sender: UIBarButtonItem) {

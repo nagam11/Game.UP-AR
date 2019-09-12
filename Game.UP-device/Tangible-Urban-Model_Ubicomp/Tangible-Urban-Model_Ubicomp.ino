@@ -16,12 +16,12 @@
 #define B6_UUID                    "ec666639-a88e-4166-a7ba-dd59a2fabfc1"
 //Single touch UUID: 0:B1 1:B2 2:B3 3:B4 4:B5 5:B6
 #define TOUCH_UUID                 "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-#define B1_LONG_TOUCH_UUID          ""
-#define B2_LONG_TOUCH_UUID          ""
-#define B3_LONG_TOUCH_UUID          ""
+#define B1_LONG_TOUCH_UUID          "34990849-3601-45cf-b7cd-cb7f2d36335f"
+#define B2_LONG_TOUCH_UUID          "45ae2e7b-0d43-4392-a479-233f67f1fad1"
+#define B3_LONG_TOUCH_UUID          "ab31a51e-7cbc-4de3-8e67-d48bd8ad6f7a"
 #define B4_LONG_TOUCH_UUID          "455bf338-29c2-4a9f-a6ff-5fa0dfd04af9"
 #define B5_LONG_TOUCH_UUID          "403828e6-6b6e-4273-9c92-3c4c13cffe0c"
-#define B6_LONG_TOUCH_UUID          ""
+#define B6_LONG_TOUCH_UUID          "ebd771ed-068d-46ea-bf28-80c8f2db9191"
 #define DEVINFO_UUID              (uint16_t)0x180a
 #define DEVINFO_MANUFACTURER_UUID (uint16_t)0x2a29
 #define DEVINFO_NAME_UUID         (uint16_t)0x2a24
@@ -298,10 +298,14 @@ void setup() {
   pinMode(B4_LED, OUTPUT);
   pinMode(B6_LED, OUTPUT);
   B4_Touch.set_CS_AutocaL_Millis(0xFFFFFFFF);
+  B1_strip.Begin();
   B2_strip.Begin();
   B4_strip.Begin();
+  B6_strip.Begin();
+  B1_strip.Show();
   B2_strip.Show();
   B4_strip.Show();
+  B6_strip.Show();
 
   String devName = "Marla_ESP32";
   String chipId = String((uint32_t)(ESP.getEfuseMac() >> 24), HEX);
@@ -316,7 +320,8 @@ void setup() {
   pServer->setCallbacks(new MyServerCallbacks());
 
   // Create the BLE Service
-  BLEService *pService = pServer->createService(SERVICE_UUID);
+  //BLEService *pService = pServer->createService(SERVICE_UUID);
+  BLEService *pService = pServer->createService(BLEUUID(SERVICE_UUID), 25);
 
   pCharB1 = pService->createCharacteristic(B1_UUID, BLECharacteristic::PROPERTY_READ  | BLECharacteristic::PROPERTY_WRITE);
   pCharB1->setCallbacks(new B1_Callbacks());
@@ -419,15 +424,6 @@ void loop() {
         touch = 0;
         pTouch->setValue(&touch, 1);
         pTouch->notify();                
-        if (!B1_LED_ON) {
-          //TODO: see what mode we are on
-          turnOff();
-          colorPixels(green,"B1");          
-          B1_LED_ON = true;          
-        } else {
-          turnOff();
-          B1_LED_ON = false;
-        }
       }
       B1_Touch_started = false;
       B1_LONG_TOUCH = 0;
@@ -455,15 +451,6 @@ void loop() {
         touch = 1;
         pTouch->setValue(&touch, 1);
         pTouch->notify();                
-        if (!B2_LED_ON) {
-          //TODO: see what mode we are on
-          turnOff();
-          colorPixels(green,"B2");          
-          B2_LED_ON = true;          
-        } else {
-          turnOff();
-          B2_LED_ON = false;
-        }
       }
       B2_Touch_started = false;
       B2_LONG_TOUCH = 0;
@@ -518,15 +505,6 @@ void loop() {
         touch = 3;
         pTouch->setValue(&touch, 1);
         pTouch->notify();                
-        if (!B4_LED_ON) {
-          //TODO: see what mode we are on
-          turnOff();
-          colorPixels(green,"B4");          
-          B4_LED_ON = true;          
-        } else {
-          turnOff();
-          B4_LED_ON = false;
-        }
       }
       B4_Touch_started = false;
       B4_LONG_TOUCH = 0;
@@ -581,15 +559,6 @@ void loop() {
         touch = 5;
         pTouch->setValue(&touch, 1);
         pTouch->notify();                
-        if (!B6_LED_ON) {
-          //TODO: see what mode we are on
-          turnOff();
-          colorPixels(green,"B6");          
-          B6_LED_ON = true;          
-        } else {
-          turnOff();
-          B6_LED_ON = false;
-        }
       }
       B6_Touch_started = false;
       B6_LONG_TOUCH = 0;

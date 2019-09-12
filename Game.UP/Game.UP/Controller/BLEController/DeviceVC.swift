@@ -25,45 +25,45 @@ class DeviceVC: UIViewController {
         }
     }
     
-    @IBOutlet weak var statusLabel: UILabel!
+   /* @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var greenSwitch: UISwitch!
     @IBOutlet weak var yellowSwitch: UISwitch!
     @IBOutlet weak var disconnectButton: UIButton!
-    @IBOutlet weak var touchLabel: UILabel!
+    @IBOutlet weak var touchLabel: UILabel!*/
     
     var viewState: ViewState = .disconnected {
         didSet {
-            switch viewState {
+           /* switch viewState {
             case .disconnected:
-                touchLabel.text = "Disconnected"
+                /*touchLabel.text = "Disconnected"
                 greenSwitch.isEnabled = false
                 greenSwitch.isOn = false
                 yellowSwitch.isEnabled = false
                 yellowSwitch.isOn = false
-                disconnectButton.isEnabled = false
+                disconnectButton.isEnabled = false*/
             case .connected:
-                statusLabel.text = "Probing..."
+                /*statusLabel.text = "Probing..."
                 greenSwitch.isEnabled = true
                 yellowSwitch.isEnabled = true
-                disconnectButton.isEnabled = true
+                disconnectButton.isEnabled = true*/
             //serialLabel.isHidden = true
             case .ready:
-                statusLabel.text = "Ready"
+                /*statusLabel.text = "Ready"
                 greenSwitch.isEnabled = true
                 yellowSwitch.isEnabled = true
-                disconnectButton.isEnabled = true
+                disconnectButton.isEnabled = true*/
                 
                 if let b = device?.b1_led {
                     //greenSwitch.isOn = b
                 }
                 if let v = device?.touch {
                     print(v)
-                    touchLabel.text = String(v)
+                   // touchLabel.text = String(v)
                 }
                 if let s = device?.b2_led {
                     //yellowSwitch.isOn = s
                 }
-            }
+            }*/
         }
     }
     
@@ -105,7 +105,18 @@ extension DeviceVC: BTDeviceDelegate {
     func deviceB6Changed(value: Int) {
         
     }
-    
+    func deviceLongTouchB1Changed(value: Int) {
+           
+       }
+    func deviceLongTouchB2Changed(value: Int) {
+           
+       }
+    func deviceLongTouchB3Changed(value: Int) {
+           
+       }
+    func deviceLongTouchB6Changed(value: Int) {
+           
+       }
     func deviceLongTouchB4Changed(value: Int) {
         
     }
@@ -134,7 +145,7 @@ extension DeviceVC: BTDeviceDelegate {
     }
     
     func deviceTouchChanged(value: Int) {
-        touchLabel.text = String(value)
+        //touchLabel.text = String(value)
     }
     
     func deviceConnected() {
