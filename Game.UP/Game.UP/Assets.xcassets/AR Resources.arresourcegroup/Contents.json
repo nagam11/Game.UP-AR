@@ -5,25 +5,19 @@
   },
   "resources" : [
     {
-      "filename" : "iphone-4.arreferenceimage"
+      "filename" : "1.arreferenceimage"
     },
     {
-      "filename" : "iphone-5.5.arreferenceimage"
+      "filename" : "2.arreferenceimage"
     },
     {
-      "filename" : "iphone-x.arreferenceimage"
+      "filename" : "3.arreferenceimage"
     },
     {
-      "filename" : "london-2-ubicomp.arreferenceimage"
+      "filename" : "4.arreferenceimage"
     },
     {
-      "filename" : "london-3.arreferenceimage"
-    },
-    {
-      "filename" : "qr-code-ubi.arreferenceimage"
-    },
-    {
-      "filename" : "qrcode.arreferenceimage"
+      "filename" : "5.arreferenceimage"
     }
   ]
 }

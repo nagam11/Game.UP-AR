@@ -130,7 +130,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         configuration.detectionImages = refImages
-        configuration.maximumNumberOfTrackedImages = 1
+        configuration.maximumNumberOfTrackedImages = 5
         
         // Run the view's session
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
@@ -285,10 +285,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         print(wantsAR)
-        if(self.wantsAR){
+        //if(self.wantsAR){
             // Marker has been detected
             if anchor is ARImageAnchor {
-                print("MARKER DETECTED")
+                print("MARKER DETECTED")                
                 self.markerScanned = true
                 // TODO: add cube alignment
                 let anchor = anchor as! ARImageAnchor
@@ -322,7 +322,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
                  self.b4_floors[0].addChildNode(storyDividerNode)
                  self.sceneView.scene.rootNode.addChildNode(self.b4_floors[0])*/
                 
-            }
+           // }
         }
     }
     

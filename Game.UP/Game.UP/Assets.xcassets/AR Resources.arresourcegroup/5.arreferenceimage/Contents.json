@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "iphone-5.5.jpg"
+      "filename" : "Screenshot 2019-10-08 at 14.10.19.png"
     }
   ],
   "info" : {
@@ -10,7 +10,7 @@
     "author" : "xcode"
   },
   "properties" : {
-    "width" : 6.8402000000000003,
+    "width" : 5,
     "unit" : "centimeters"
   }
 }

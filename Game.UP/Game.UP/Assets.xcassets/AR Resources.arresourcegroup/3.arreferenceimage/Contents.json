@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "iphone-4.jpg"
+      "filename" : "qr-code2.png"
     }
   ],
   "info" : {
@@ -10,7 +10,7 @@
     "author" : "xcode"
   },
   "properties" : {
-    "width" : 1.9630000000000001,
-    "unit" : "inches"
+    "width" : 4,
+    "unit" : "centimeters"
   }
 }
