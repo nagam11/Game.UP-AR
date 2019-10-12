@@ -27,7 +27,7 @@
 */
 #define B3_LONG_TOUCH_UUID          "ab31a51e-7cbc-4de3-8e67-d48bd8ad6f7a"
 #define B5_LONG_TOUCH_UUID          "403828e6-6b6e-4273-9c92-3c4c13cffe0c"
-#define B7_LONG_TOUCH_UUID          "ebd771ed-068d-46ea-bf28-80c8f2db9191"
+#define B7_LONG_TOUCH_UUID          "455bf338-29c2-4a9f-a6ff-5fa0dfd04af9"
 /*  Device UUID */
 #define DEVINFO_UUID              (uint16_t)0x180a
 #define DEVINFO_MANUFACTURER_UUID (uint16_t)0x2a29

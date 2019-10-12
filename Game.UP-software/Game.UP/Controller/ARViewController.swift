@@ -483,18 +483,6 @@ extension ARViewController {
 
 extension ARViewController: BTDeviceDelegate {
     
-    func deviceB4Changed(value: Int) {
-        /*print("B4 clicked")
-         self.informationTextView.isHidden = false
-         self.informationTextView.text = "Residential buildings have been selected."*/
-        return
-    }
-    
-    func deviceB6Changed(value: Int) {
-        return
-    }
-    func deviceLongTouchB1Changed(value: Int) {}
-    func deviceLongTouchB2Changed(value: Int) {}
     func deviceLongTouchB3Changed(value: Int) {
         if(self.markerScanned){
             if(self.addMode){
@@ -593,106 +581,6 @@ extension ARViewController: BTDeviceDelegate {
                 }
             }}
         
-    }
-    func deviceLongTouchB6Changed(value: Int) {}
-    
-    func deviceLongTouchB4Changed(value: Int) {
-        if(self.markerScanned){
-            if(self.addMode){
-                switch value {
-                case 1:
-                    let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-                    story.firstMaterial?.diffuse.contents = UIColor.gray
-                    let storyNode = SCNNode(geometry: story)
-                    storyNode.opacity = 0.8
-                    storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.04,self.modelCoordinate.columns.3.z - 0.15)
-                    let b4_third_floor = SCNNode()
-                    b4_third_floor.addChildNode(storyNode)
-                    self.b4_floors[0] = b4_third_floor
-                    self.b4_boxes[0] = storyNode
-                    
-                    let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-                    storyDivider.firstMaterial?.diffuse.contents = UIColor.black
-                    let storyDividerNode = SCNNode(geometry: storyDivider)
-                    storyDividerNode.opacity = 1
-                    storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.03,self.modelCoordinate.columns.3.z - 0.15)
-                    self.b4_floors[0].addChildNode(storyDividerNode)
-                    self.sceneView.scene.rootNode.addChildNode(self.b4_floors[0])
-                case 2:
-                    let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-                    story.firstMaterial?.diffuse.contents = UIColor.gray
-                    let storyNode = SCNNode(geometry: story)
-                    storyNode.opacity = 0.8
-                    storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.02,self.modelCoordinate.columns.3.z - 0.15)
-                    let b4_forth_floor = SCNNode()
-                    b4_forth_floor.addChildNode(storyNode)
-                    self.b4_floors[1] = b4_forth_floor
-                    self.b4_boxes[1] = storyNode
-                    
-                    let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-                    storyDivider.firstMaterial?.diffuse.contents = UIColor.black
-                    let storyDividerNode = SCNNode(geometry: storyDivider)
-                    storyDividerNode.opacity = 1
-                    storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.01,self.modelCoordinate.columns.3.z - 0.15)
-                    self.b4_floors[1].addChildNode(storyDividerNode)
-                    self.sceneView.scene.rootNode.addChildNode(self.b4_floors[1])
-                case 3:
-                    let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-                    story.firstMaterial?.diffuse.contents = UIColor.gray
-                    let storyNode = SCNNode(geometry: story)
-                    storyNode.opacity = 0.8
-                    storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.00,self.modelCoordinate.columns.3.z - 0.15)
-                    let b4_fifth_floor = SCNNode()
-                    b4_fifth_floor.addChildNode(storyNode)
-                    self.b4_floors[2] = b4_fifth_floor
-                    self.b4_boxes[2] = storyNode
-                    
-                    let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-                    storyDivider.firstMaterial?.diffuse.contents = UIColor.black
-                    let storyDividerNode = SCNNode(geometry: storyDivider)
-                    storyDividerNode.opacity = 1
-                    storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.01,self.modelCoordinate.columns.3.z - 0.15)
-                    self.b4_floors[2].addChildNode(storyDividerNode)
-                    self.sceneView.scene.rootNode.addChildNode(self.b4_floors[2])
-                case 4:
-                    let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-                    story.firstMaterial?.diffuse.contents = UIColor.gray
-                    let storyNode = SCNNode(geometry: story)
-                    storyNode.opacity = 0.8
-                    storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.02,self.modelCoordinate.columns.3.z - 0.15)
-                    let b4_six_floor = SCNNode()
-                    b4_six_floor.addChildNode(storyNode)
-                    self.b4_floors[3] = b4_six_floor
-                    self.b4_boxes[3] = storyNode
-                    
-                    let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
-                    storyDivider.firstMaterial?.diffuse.contents = UIColor.black
-                    let storyDividerNode = SCNNode(geometry: storyDivider)
-                    storyDividerNode.opacity = 1
-                    storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.03,self.modelCoordinate.columns.3.z - 0.15)
-                    self.b4_floors[3].addChildNode(storyDividerNode)
-                    self.sceneView.scene.rootNode.addChildNode(self.b4_floors[3])
-                    let alert = UIAlertController(title: "Delete buildings", message: "Try deleting buildings by selecting delete on the bottom.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
-                    self.present(alert, animated: true)
-                default:
-                    return;
-                }
-            }
-            if(!self.addMode){
-                switch value {
-                case 1:
-                    self.b4_floors[3].removeFromParentNode()
-                case 2:
-                    self.b4_floors[2].removeFromParentNode()
-                case 3:
-                    self.b4_floors[1].removeFromParentNode()
-                case 4:
-                    self.b4_floors[0].removeFromParentNode()
-                default:
-                    return;
-                }
-            }}
     }
     
     func deviceLongTouchB5Changed(value: Int) {
@@ -797,12 +685,103 @@ extension ARViewController: BTDeviceDelegate {
         }
     }
     
-    func deviceSerialChanged(value: String) {
-        return
-    }
-    
-    func deviceB2Changed(value: Int) {
-        return
+    func deviceLongTouchB7Changed(value: Int) {
+        if(self.markerScanned){
+            if(self.addMode){
+                switch value {
+                case 1:
+                    let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
+                    story.firstMaterial?.diffuse.contents = UIColor.gray
+                    let storyNode = SCNNode(geometry: story)
+                    storyNode.opacity = 0.8
+                    storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.04,self.modelCoordinate.columns.3.z - 0.15)
+                    let b4_third_floor = SCNNode()
+                    b4_third_floor.addChildNode(storyNode)
+                    self.b4_floors[0] = b4_third_floor
+                    self.b4_boxes[0] = storyNode
+                    
+                    let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
+                    storyDivider.firstMaterial?.diffuse.contents = UIColor.black
+                    let storyDividerNode = SCNNode(geometry: storyDivider)
+                    storyDividerNode.opacity = 1
+                    storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.03,self.modelCoordinate.columns.3.z - 0.15)
+                    self.b4_floors[0].addChildNode(storyDividerNode)
+                    self.sceneView.scene.rootNode.addChildNode(self.b4_floors[0])
+                case 2:
+                    let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
+                    story.firstMaterial?.diffuse.contents = UIColor.gray
+                    let storyNode = SCNNode(geometry: story)
+                    storyNode.opacity = 0.8
+                    storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.02,self.modelCoordinate.columns.3.z - 0.15)
+                    let b4_forth_floor = SCNNode()
+                    b4_forth_floor.addChildNode(storyNode)
+                    self.b4_floors[1] = b4_forth_floor
+                    self.b4_boxes[1] = storyNode
+                    
+                    let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
+                    storyDivider.firstMaterial?.diffuse.contents = UIColor.black
+                    let storyDividerNode = SCNNode(geometry: storyDivider)
+                    storyDividerNode.opacity = 1
+                    storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.01,self.modelCoordinate.columns.3.z - 0.15)
+                    self.b4_floors[1].addChildNode(storyDividerNode)
+                    self.sceneView.scene.rootNode.addChildNode(self.b4_floors[1])
+                case 3:
+                    let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
+                    story.firstMaterial?.diffuse.contents = UIColor.gray
+                    let storyNode = SCNNode(geometry: story)
+                    storyNode.opacity = 0.8
+                    storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.00,self.modelCoordinate.columns.3.z - 0.15)
+                    let b4_fifth_floor = SCNNode()
+                    b4_fifth_floor.addChildNode(storyNode)
+                    self.b4_floors[2] = b4_fifth_floor
+                    self.b4_boxes[2] = storyNode
+                    
+                    let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
+                    storyDivider.firstMaterial?.diffuse.contents = UIColor.black
+                    let storyDividerNode = SCNNode(geometry: storyDivider)
+                    storyDividerNode.opacity = 1
+                    storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.01,self.modelCoordinate.columns.3.z - 0.15)
+                    self.b4_floors[2].addChildNode(storyDividerNode)
+                    self.sceneView.scene.rootNode.addChildNode(self.b4_floors[2])
+                case 4:
+                    let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
+                    story.firstMaterial?.diffuse.contents = UIColor.gray
+                    let storyNode = SCNNode(geometry: story)
+                    storyNode.opacity = 0.8
+                    storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.02,self.modelCoordinate.columns.3.z - 0.15)
+                    let b4_six_floor = SCNNode()
+                    b4_six_floor.addChildNode(storyNode)
+                    self.b4_floors[3] = b4_six_floor
+                    self.b4_boxes[3] = storyNode
+                    
+                    let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
+                    storyDivider.firstMaterial?.diffuse.contents = UIColor.black
+                    let storyDividerNode = SCNNode(geometry: storyDivider)
+                    storyDividerNode.opacity = 1
+                    storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y + 0.03,self.modelCoordinate.columns.3.z - 0.15)
+                    self.b4_floors[3].addChildNode(storyDividerNode)
+                    self.sceneView.scene.rootNode.addChildNode(self.b4_floors[3])
+                    let alert = UIAlertController(title: "Delete buildings", message: "Try deleting buildings by selecting delete on the bottom.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                default:
+                    return;
+                }
+            }
+            if(!self.addMode){
+                switch value {
+                case 1:
+                    self.b4_floors[3].removeFromParentNode()
+                case 2:
+                    self.b4_floors[2].removeFromParentNode()
+                case 3:
+                    self.b4_floors[1].removeFromParentNode()
+                case 4:
+                    self.b4_floors[0].removeFromParentNode()
+                default:
+                    return;
+                }
+            }}
     }
     
     // Send value according to the building touched (single touch)
@@ -833,20 +812,6 @@ extension ARViewController: BTDeviceDelegate {
         } else {
             self.selectedBuilding = value
             showSelectedBuilding()}
-    }
-    
-    func deviceConnected() {
-    }
-    
-    func deviceDisconnected() {
-    }
-    
-    func deviceReady() {
-    }
-    
-    func deviceB1Changed(value: Int) {
-        print("B1 was clicked")        
-        return
     }
 }
 //------------------------------------------------
