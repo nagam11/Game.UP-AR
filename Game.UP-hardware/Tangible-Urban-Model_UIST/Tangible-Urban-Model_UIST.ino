@@ -9,23 +9,26 @@
 
 /** ============= BLUETOOTH SERVICES AND CHARACTERISTICS =============**/
 #define SERVICE_UUID               "9a8ca9ef-e43f-4157-9fee-c37a3d7dc12d"
-// LED char
+/*  LED UUIDs */
 #define B1_UUID                    "e94f85c8-7f57-4dbd-b8d3-2b56e107ed60"
 #define B2_UUID                    "a8985fda-51aa-4f19-a777-71cf52abba1e"
 #define B4_UUID                    "4fde9fc5-a828-40c6-a728-3fe2a5bc88b9"
 #define B6_UUID                    "ec666639-a88e-4166-a7ba-dd59a2fabfc1"
 #define B7_UUID                    "ebd771ed-068d-46ea-bf28-80c8f2db9191"
 #define B8_UUID                    "34990849-3601-45cf-b7cd-cb7f2d36335f"
-// Single touch UUID: 0:B1 1:B2 2:P3 3:B4 4:P5 5:B6 6:B7 7:B8
+/*  
+ *   Single touch UUID
+    0:B1 1:B2 2:P3 3:B4 4:P5 5:B6 6:B7 7:B8 
+*/
 #define TOUCH_UUID                 "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-// Long touch B3= Plate 1, B5 = Plate 2, B7 = Building 7
+/*  
+ *   Long touch UUID 
+    B3: Plate 1, B5: Plate 2, B7: Building 7 with QRCode 
+*/
 #define B3_LONG_TOUCH_UUID          "ab31a51e-7cbc-4de3-8e67-d48bd8ad6f7a"
 #define B5_LONG_TOUCH_UUID          "403828e6-6b6e-4273-9c92-3c4c13cffe0c"
 #define B7_LONG_TOUCH_UUID          "ebd771ed-068d-46ea-bf28-80c8f2db9191"
-//#define B6_LONG_TOUCH_UUID          "ebd771ed-068d-46ea-bf28-80c8f2db9191"
-//#define B1_LONG_TOUCH_UUID          "34990849-3601-45cf-b7cd-cb7f2d36335f"
-//#define B2_LONG_TOUCH_UUID          "45ae2e7b-0d43-4392-a479-233f67f1fad1"
-//#define B4_LONG_TOUCH_UUID          "455bf338-29c2-4a9f-a6ff-5fa0dfd04af9"
+/*  Device UUID */
 #define DEVINFO_UUID              (uint16_t)0x180a
 #define DEVINFO_MANUFACTURER_UUID (uint16_t)0x2a29
 #define DEVINFO_NAME_UUID         (uint16_t)0x2a24
@@ -33,13 +36,10 @@
 #define DEVICE_MANUFACTURER  "WROOM"
 #define DEVICE_NAME    "Marla_ESP32"
 
-// BLE server
+/* BLE server data */
 BLEServer* pServer = NULL;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
-
-Scheduler scheduler;
-
 BLECharacteristic *pCharB1;
 BLECharacteristic *pCharB2;
 BLECharacteristic *pCharB4;
@@ -47,15 +47,12 @@ BLECharacteristic *pCharB6;
 BLECharacteristic *pCharB7;
 BLECharacteristic *pCharB8;
 BLECharacteristic *pTouch;
-//BLECharacteristic *pCharB1_LONG_TOUCH;
-//BLECharacteristic *pCharB2_LONG_TOUCH;
 BLECharacteristic *pCharB3_LONG_TOUCH;
-//BLECharacteristic *pCharB4_LONG_TOUCH;
 BLECharacteristic *pCharB5_LONG_TOUCH;
-//BLECharacteristic *pCharB6_LONG_TOUCH;
 BLECharacteristic *pCharB7_LONG_TOUCH;
 
 /** ======================= LEDs =====================================**/
+/*  NeoPixel PINs  */
 #define B1_LED 23
 #define B2_LED 22
 #define B4_LED 21
@@ -63,10 +60,9 @@ BLECharacteristic *pCharB7_LONG_TOUCH;
 #define B7_LED 18
 #define B8_LED 30
 #define colorSaturation 255
-// Number of LEDs in NeopixelB2_strip
+// Number of LEDs in Neopixel strips
 #define COUNT 2
-//#define B4_COUNT 1
-// 220 Ohm resistor for Neopixels. 5V power from ESP32.
+// 220 Ohm resistor for each Neopixel strip. 5V power from ESP32.
 NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> B1_strip(COUNT, B1_LED);
 NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> B2_strip(COUNT, B2_LED);
 NeoPixelBus<NeoGrbFeature, NeoEsp32BitBangWs2813Method> B4_strip(COUNT, B4_LED);
@@ -78,41 +74,34 @@ RgbColor red(colorSaturation, 0, 0);
 RgbColor green(0, colorSaturation, 0);
 RgbColor blue(0, 0, colorSaturation);
 RgbColor black(0);
-// Keep track of LED states
+// Variables to Keep track of LED states
 bool B1_LED_ON = false;
 bool B2_LED_ON = false;
-bool B3_LED_ON = false;
 bool B4_LED_ON = false;
-bool B5_LED_ON = false;
 bool B6_LED_ON = false;
-bool B7_LED_ON = false;
 bool B8_LED_ON = false;
-// Keep track of type of highlight for B4. False for RESIDENTIAL, true for AGE
-//bool B4_highlight_type = false;
 
 /** ======================= Touch ====================================**/
-
-CapacitiveSensor   B1_Touch = CapacitiveSensor(4, 2);       // 10M resistor between B2_LEDs 4 & 2, B2_LED 2 is sensor B2_LED.
-CapacitiveSensor   B2_Touch = CapacitiveSensor(4, 15);       // 10M resistor between B2_LEDs 4 & 33, B2_LED 33 is sensor B2_LED.
-CapacitiveSensor   B3_Touch = CapacitiveSensor(4, 33);       // 10M resistor between B2_LEDs 4 & 2, B2_LED 2 is sensor B2_LED.
-CapacitiveSensor   B4_Touch = CapacitiveSensor(4, 32);       // 10M resistor between B2_LEDs 4 & 33, B2_LED 33 is sensor B2_LED.
-CapacitiveSensor   B5_Touch = CapacitiveSensor(4, 27);       // 10M resistor between B2_LEDs 4 & 2, B2_LED 2 is sensor B2_LED.
-CapacitiveSensor   B6_Touch = CapacitiveSensor(4, 14);       // 10M resistor between B2_LEDs 4 & 33, B2_LED 33 is sensor B2_LED.
-CapacitiveSensor   B7_Touch = CapacitiveSensor(4, 12);       // 10M resistor between B2_LEDs 4 & 33, B2_LED 33 is sensor B2_LED.
-CapacitiveSensor   B8_Touch = CapacitiveSensor(4, 13);       // 10M resistor between B2_LEDs 4 & 33, B2_LED 33 is sensor B2_LED.
-
+CapacitiveSensor   B1_Touch = CapacitiveSensor(4, 2);        // 10M resistor between 4 & 2, 2 is sensor LED PIN.
+CapacitiveSensor   B2_Touch = CapacitiveSensor(4, 15);       // 10M resistor between 4 & 15, 15 is sensor LED PIN.
+CapacitiveSensor   B3_Touch = CapacitiveSensor(4, 33);       // 10M resistor between 4 & 33, 33 is sensor LED PIN.
+CapacitiveSensor   B4_Touch = CapacitiveSensor(4, 32);       // 10M resistor between 4 & 32, 32 is sensor LED PIN.
+CapacitiveSensor   B5_Touch = CapacitiveSensor(4, 27);       // 10M resistor between 4 & 27, 27 is sensor LED PIN.
+CapacitiveSensor   B6_Touch = CapacitiveSensor(4, 14);       // 10M resistor between 4 & 14, 14 is sensor LED PIN.
+CapacitiveSensor   B7_Touch = CapacitiveSensor(4, 12);       // 10M resistor between 4 & 12, 12 is sensor LED PIN.
+CapacitiveSensor   B8_Touch = CapacitiveSensor(4, 13);       // 10M resistor between 4 & 13, 13 is sensor LED PIN.
+// Variable used to define the duration of a long touch. Here set to 2s.
 const unsigned long long_touch = 2000;
-// Current touch: 0 B1, 1 for B2, 2  for B3 , 3 for B4, 4 for B5 , 5 for B6, 6 for B7,  7 for B8 , 8 for nothing
+/*  
+ *  Current touch 
+    0: B1, 1: B2, 2: B3, 3: B4, 4: B5, 5: B6, 6: B7, 7: B8, 8 for no touch 
+*/
 uint8_t touch = 8;
 // 0 for no long touches, 1 for one unit of long touch where 1 unit is 700 ms. 2 for 2 units and so on.
-uint8_t B1_LONG_TOUCH = 0;
-uint8_t B2_LONG_TOUCH = 0;
 uint8_t B3_LONG_TOUCH = 0;
-uint8_t B4_LONG_TOUCH = 0;
 uint8_t B5_LONG_TOUCH = 0;
-uint8_t B6_LONG_TOUCH = 0;
 uint8_t B7_LONG_TOUCH = 0;
-uint8_t B8_LONG_TOUCH = 0;
+// Variable to keep track if the touch has started.
 bool B1_Touch_started = false;
 bool B2_Touch_started = false;
 bool B3_Touch_started = false;
@@ -121,6 +110,7 @@ bool B5_Touch_started = false;
 bool B6_Touch_started = false;
 bool B7_Touch_started = false;
 bool B8_Touch_started = false;
+// Variable to keep track of the time the touch began. 
 unsigned long B1_Touch_begin;
 unsigned long B2_Touch_begin;
 unsigned long B3_Touch_begin;
@@ -129,6 +119,7 @@ unsigned long B5_Touch_begin;
 unsigned long B6_Touch_begin;
 unsigned long B7_Touch_begin;
 unsigned long B8_Touch_begin;
+// Variable to keep track of the last time a touch was detected.
 unsigned long B1_LAST_TOUCH;
 unsigned long B2_LAST_TOUCH;
 unsigned long B3_LAST_TOUCH;
@@ -137,6 +128,7 @@ unsigned long B5_LAST_TOUCH;
 unsigned long B6_LAST_TOUCH;
 unsigned long B7_LAST_TOUCH;
 unsigned long B8_LAST_TOUCH;
+// Variables to keep track of delays for differentiating between long a short touch.
 long B1_current_long_delay;
 long B1_recent_long_delay;
 long B2_current_long_delay;
@@ -154,6 +146,10 @@ long B7_recent_long_delay;
 long B8_current_long_delay;
 long B8_recent_long_delay;
 
+Scheduler scheduler;
+/*
+ * Server callback which handles an incoming connection or disconnection, for example co-/disco-/nnection to the iPhone.
+ */
 class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       Serial.println("Connected");
@@ -166,11 +162,17 @@ class MyServerCallbacks: public BLEServerCallbacks {
     }
 };
 
+/*  Note: BLE & Neopixel libraries require separate callbacks. Callbacks are defined as classes so they can only access the methods within the class. 
+          Not possible to re-use code. */
+/*
+ * For every building there is a callback function which handles incoming requests sent from the app via BLE. It reads the sent value and sets the
+ * corresponsing status of the LEDs. 
+ */
 class B1_Callbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       std::string value = pCharacteristic->getValue();
       Serial.println("B1 Command");
-      // 0: turn off, 1: green , 2: red 3: blue
+      // 0: turn off LEDs, 1: green (role), 2: red (age) 3: blue (building selected)
       uint8_t v = value[0];
       Serial.println(value.c_str());
       if (v == 0){   
@@ -194,20 +196,20 @@ class B1_Callbacks: public BLECharacteristicCallbacks {
       }
     }
 
-void colorPixels(RgbColor c) {
-  for (uint32_t j = 0; j < COUNT; j++) {
-        B1_strip.SetPixelColor(j, c);
-      }
-      delay(1);
-      B1_strip.Show();
-}
+  void colorPixels(RgbColor c) {
+    for (uint32_t j = 0; j < COUNT; j++) {
+          B1_strip.SetPixelColor(j, c);
+        }
+        delay(1);
+        B1_strip.Show();
+  }
 };
 
 class B2_Callbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       std::string value = pCharacteristic->getValue();
       Serial.println("B2 Command");
-      // 0: turn off, 1: green , 2: red 3: blue
+      // 0: turn off LEDs, 1: green (role), 2: red (age) 3: blue (building selected)
       uint8_t v = value[0];
       Serial.println(value.c_str());
       if (v == 0){   
@@ -231,20 +233,20 @@ class B2_Callbacks: public BLECharacteristicCallbacks {
       }
     }
 
-void colorPixels(RgbColor c) {
-  for (uint32_t j = 0; j < COUNT; j++) {
-        B2_strip.SetPixelColor(j, c);
-      }
-      delay(1);
-      B2_strip.Show();
-}
+  void colorPixels(RgbColor c) {
+    for (uint32_t j = 0; j < COUNT; j++) {
+          B2_strip.SetPixelColor(j, c);
+        }
+        delay(1);
+        B2_strip.Show();
+  }
 };
 
 class B4_Callbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       std::string value = pCharacteristic->getValue();
       Serial.println("B4 Command");
-      // 0: turn off, 1: green , 2: red 3: blue
+      // 0: turn off LEDs, 1: green (role), 2: red (age) 3: blue (building selected)
       uint8_t v = value[0];
       Serial.println(value.c_str());
       if (v == 0){   
@@ -267,21 +269,21 @@ class B4_Callbacks: public BLECharacteristicCallbacks {
         Serial.println("Invalid data received");
       }
     }
-
-void colorPixels(RgbColor c) {
-  for (uint32_t j = 0; j < COUNT; j++) {
-        B4_strip.SetPixelColor(j, c);
-      }
-      delay(1);
-      B4_strip.Show();
-}
+  
+  void colorPixels(RgbColor c) {
+    for (uint32_t j = 0; j < COUNT; j++) {
+          B4_strip.SetPixelColor(j, c);
+        }
+        delay(1);
+        B4_strip.Show();
+  }
 };
 
 class B6_Callbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       std::string value = pCharacteristic->getValue();
       Serial.println("B6 Command");
-      // 0: turn off, 1: green , 2: red 3: blue
+      // 0: turn off LEDs, 1: green (role), 2: red (age) 3: blue (building selected)
       uint8_t v = value[0];
       Serial.println(value.c_str());
       if (v == 0){   
@@ -305,33 +307,110 @@ class B6_Callbacks: public BLECharacteristicCallbacks {
       }
     }
 
-void colorPixels(RgbColor c) {
-  for (uint32_t j = 0; j < COUNT; j++) {
-        B6_strip.SetPixelColor(j, c);
-      }
-      delay(1);
-      B6_strip.Show();
-}
+  void colorPixels(RgbColor c) {
+    for (uint32_t j = 0; j < COUNT; j++) {
+          B6_strip.SetPixelColor(j, c);
+        }
+        delay(1);
+        B6_strip.Show();
+  }
 };
 
+class B7_Callbacks: public BLECharacteristicCallbacks {
+    void onWrite(BLECharacteristic *pCharacteristic) {
+      std::string value = pCharacteristic->getValue();
+      Serial.println("B7 Command");
+      // 0: turn off LEDs, 1: green (role), 2: red (age) 3: blue (building selected)
+      uint8_t v = value[0];
+      Serial.println(value.c_str());
+      if (v == 0){   
+          Serial.print("B7");
+          Serial.println(" OFF");
+          colorPixels(black);                    
+        } else if (v == 1){          
+          Serial.print("B7");
+          Serial.println(" ON- green");         
+          colorPixels(green);          
+        }else if (v == 2){          
+          Serial.print("B7");
+          Serial.println("ON - red");         
+          colorPixels(red);          
+        } else if (v == 3){          
+          Serial.print("B7");
+          Serial.println("ON - blue");         
+          colorPixels(blue);          
+        }else {
+        Serial.println("Invalid data received");
+      }
+    }
 
+  void colorPixels(RgbColor c) {
+    for (uint32_t j = 0; j < COUNT; j++) {
+          B7_strip.SetPixelColor(j, c);
+        }
+        delay(1);
+        B7_strip.Show();
+  }
+};
+
+class B8_Callbacks: public BLECharacteristicCallbacks {
+    void onWrite(BLECharacteristic *pCharacteristic) {
+      std::string value = pCharacteristic->getValue();
+      Serial.println("B8 Command");
+      // 0: turn off LEDs, 1: green (role), 2: red (age) 3: blue (building selected)
+      uint8_t v = value[0];
+      Serial.println(value.c_str());
+      if (v == 0){   
+          Serial.print("B8");
+          Serial.println(" OFF");
+          colorPixels(black);                    
+        } else if (v == 1){          
+          Serial.print("B8");
+          Serial.println(" ON- green");         
+          colorPixels(green);          
+        }else if (v == 2){          
+          Serial.print("B8");
+          Serial.println("ON - red");         
+          colorPixels(red);          
+        } else if (v == 3){          
+          Serial.print("B8");
+          Serial.println("ON - blue");         
+          colorPixels(blue);          
+        }else {
+        Serial.println("Invalid data received");
+      }
+    }
+
+  void colorPixels(RgbColor c) {
+    for (uint32_t j = 0; j < COUNT; j++) {
+          B8_strip.SetPixelColor(j, c);
+        }
+        delay(1);
+        B8_strip.Show();
+  }
+};
+
+/*
+ * Setup function is called once in the beginning and it sets all the needed variables and values for LEDs, touch and BLE.
+ */
 void setup() {
   Serial.begin(115200);
   Serial.println("Starting...");
+  // Setup pin modes and initiate Neopixels.
   pinMode(B1_LED, OUTPUT);
   pinMode(B2_LED, OUTPUT);
   pinMode(B4_LED, OUTPUT);
   pinMode(B6_LED, OUTPUT);
+  pinMode(B7_LED, OUTPUT);
+  pinMode(B8_LED, OUTPUT);
   B4_Touch.set_CS_AutocaL_Millis(0xFFFFFFFF);
-  B1_strip.Begin();
-  B2_strip.Begin();
-  B4_strip.Begin();
-  B6_strip.Begin();
-  B1_strip.Show();
-  B2_strip.Show();
-  B4_strip.Show();
-  B6_strip.Show();
+  for (int i = 0; i++; i<8) {
+    LEDs_STRIP[i].Begin();
+    LEDs_STRIP[i].Show();
+  }
 
+
+  /** ============= SETUP BLUETOOTH ============= **/
   String devName = "Marla_ESP32";
   String chipId = String((uint32_t)(ESP.getEfuseMac() >> 24), HEX);
   devName += '_';
@@ -348,38 +427,33 @@ void setup() {
   //BLEService *pService = pServer->createService(SERVICE_UUID);
   BLEService *pService = pServer->createService(BLEUUID(SERVICE_UUID), 25);
 
+  // Create Characteristics and callbacks for each. Note: Code cannot be re-used because of the library.
   pCharB1 = pService->createCharacteristic(B1_UUID, BLECharacteristic::PROPERTY_READ  | BLECharacteristic::PROPERTY_WRITE);
   pCharB1->setCallbacks(new B1_Callbacks());
-  //pCharB1->addDescriptor(new BLE2902());
 
   pCharB2 = pService->createCharacteristic(B2_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE);
   pCharB2->setCallbacks(new B2_Callbacks());
-  //pCharB2->addDescriptor(new BLE2902());
 
   pCharB4 = pService->createCharacteristic(B4_UUID, BLECharacteristic::PROPERTY_READ  | BLECharacteristic::PROPERTY_WRITE);
   pCharB4->setCallbacks(new B4_Callbacks());
-  //pCharB4->addDescriptor(new BLE2902());
 
   pCharB6 = pService->createCharacteristic(B6_UUID, BLECharacteristic::PROPERTY_READ  | BLECharacteristic::PROPERTY_WRITE);
   pCharB6->setCallbacks(new B6_Callbacks());
-  //pCharB6->addDescriptor(new BLE2902());
+
+  pCharB7 = pService->createCharacteristic(B7_UUID, BLECharacteristic::PROPERTY_READ  | BLECharacteristic::PROPERTY_WRITE);
+  pCharB7->setCallbacks(new B7_Callbacks());
+
+  pCharB8 = pService->createCharacteristic(B8_UUID, BLECharacteristic::PROPERTY_READ  | BLECharacteristic::PROPERTY_WRITE);
+  pCharB8->setCallbacks(new B8_Callbacks());
 
   pTouch = pService->createCharacteristic(TOUCH_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE );
-  //pTouch->addDescriptor(new BLE2902());
   
-  //pCharB1_LONG_TOUCH = pService->createCharacteristic(B1_LONG_TOUCH_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE );
-  //pCharB2_LONG_TOUCH = pService->createCharacteristic(B2_LONG_TOUCH_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE );
   pCharB3_LONG_TOUCH = pService->createCharacteristic(B3_LONG_TOUCH_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE );
   pCharB5_LONG_TOUCH = pService->createCharacteristic(B5_LONG_TOUCH_UUID , BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
   pCharB7_LONG_TOUCH = pService->createCharacteristic(B7_LONG_TOUCH_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE );
-  //pCharB5_LONG_TOUCH->addDescriptor(new BLE2902());
-  //pCharB4_LONG_TOUCH = pService->createCharacteristic(B4_LONG_TOUCH_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE );
-  //pCharB4_LONG_TOUCH->addDescriptor(new BLE2902());
-  //pCharB6_LONG_TOUCH = pService->createCharacteristic(B6_LONG_TOUCH_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE );
-  
+ 
   // Start the service
   pService->start();
-
   pService = pServer->createService(DEVINFO_UUID);
   BLECharacteristic *pChar = pService->createCharacteristic(DEVINFO_MANUFACTURER_UUID, BLECharacteristic::PROPERTY_READ);
   pChar->setValue(DEVICE_MANUFACTURER);
@@ -387,10 +461,9 @@ void setup() {
   pChar->setValue(DEVICE_NAME);
   pChar = pService->createCharacteristic(DEVINFO_SERIAL_UUID, BLECharacteristic::PROPERTY_READ);
   pChar->setValue(chipId.c_str());
-
   pService->start();
 
-  // ----- Advertising
+  //** ============= Advertising ============= **/ 
 
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
 
@@ -409,10 +482,14 @@ void setup() {
   Serial.println(devName);
 }
 
+/*
+ * The loop functions is called for repeatedly and is used to detect touch gestures, turn on/off LEDs and send/receive BLE commands in real-time.
+ * It also handles all incoming connections to the device.
+ */
 void loop() {
   scheduler.execute();
 
-  // Notify on Touch
+  // If device is connected, start listening for touch gestures
   if (deviceConnected) {
     long start = millis();
     long current_B1_delay = start - B1_Touch_begin;
@@ -458,7 +535,6 @@ void loop() {
         pTouch->notify();                
       }
       B1_Touch_started = false;
-      B1_LONG_TOUCH = 0;
     }
 
     if (total_B1 > 30000 && B1_Touch_started && B1_current_long_delay >= long_touch) {
@@ -482,7 +558,6 @@ void loop() {
         pTouch->notify();                
       }
       B2_Touch_started = false;
-      B2_LONG_TOUCH = 0;
     }
 
     if (total_B2 > 30000 && B2_Touch_started && B2_current_long_delay >= long_touch) {
@@ -533,7 +608,6 @@ void loop() {
         pTouch->notify();                
       }
       B4_Touch_started = false;
-      B4_LONG_TOUCH = 0;
     }
 
     if (total_B4 > 30000 && B4_Touch_started && B4_current_long_delay >= long_touch) {
@@ -584,7 +658,6 @@ void loop() {
         pTouch->notify();                
       }
       B6_Touch_started = false;
-      B6_LONG_TOUCH = 0;
     }
 
     if (total_B6 > 30000 && B6_Touch_started && B6_current_long_delay >= long_touch) {
@@ -635,7 +708,6 @@ void loop() {
         pTouch->notify();                
       }
       B8_Touch_started = false;
-      B8_LONG_TOUCH = 0;
     }
 
     if (total_B8 > 30000 && B8_Touch_started && B8_current_long_delay >= long_touch) {
@@ -645,59 +717,15 @@ void loop() {
     
     delay(80);
   }
-  // disconnecting
+  // If device is disconnected, restart advertising
   if (!deviceConnected && oldDeviceConnected) {
     delay(500); // give the bluetooth stack the chance to get things ready
     pServer->startAdvertising(); // restart advertising
     Serial.println("start advertising");
     oldDeviceConnected = deviceConnected;
   }
-  // connecting
+  // If device is connected, set the status to connected
   if (deviceConnected && !oldDeviceConnected) {
     oldDeviceConnected = deviceConnected;
   }
-}
-
-
-// Fill specific dots at the same time with a specific color
-void colorPixels(RgbColor c, String strip) {
-   if (strip == "B1") {
-      for (uint32_t j = 0; j < COUNT; j++) {
-        B1_strip.SetPixelColor(j, c);
-      }
-      delay(1);
-      B1_strip.Show();
-   } else if (strip == "B2") {    
-      for (uint32_t j = 0; j < COUNT; j++) {
-        B2_strip.SetPixelColor(j, c);
-      }
-      delay(1);
-      B2_strip.Show();
-    }
-    else if (strip == "B4") {    
-      for (uint32_t j = 0; j < COUNT; j++) {
-        B4_strip.SetPixelColor(j, c);
-      }
-      delay(1);
-      B4_strip.Show();
-    }
-   else if (strip == "B6") {    
-      for (uint32_t j = 0; j < COUNT; j++) {
-        B6_strip.SetPixelColor(j, c);
-      }
-      delay(1);
-      B6_strip.Show();
-   } 
-}
-
-// Turn off all Pixels in the all strips
-void turnOff() {
-  // for all strips, turn all pixels black
-  for (uint32_t i = 0; i < 6; i++) {
-    for (uint32_t j = 0; j < COUNT; j++) {
-      LEDs_STRIP[i].SetPixelColor(j, black);
-    }
-    delay(1);
-    LEDs_STRIP[i].Show(); 
-  } 
 }
