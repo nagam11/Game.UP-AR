@@ -19,6 +19,7 @@ extension CBManagerState: CustomStringConvertible {
         case .unauthorized: return "unauthorized"
         case .poweredOff: return "poweredOff"
         case .poweredOn: return "poweredOn"
+        @unknown default: return "unknown"
         }
     }
 }

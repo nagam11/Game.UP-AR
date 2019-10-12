@@ -217,11 +217,9 @@ extension BTDevice {
     
     func connectedCallback() {
         peripheral.discoverServices([BTUUIDs.service, BTUUIDs.infoService])
-        delegate?.deviceConnected()
     }
     
     func disconnectedCallback() {
-        delegate?.deviceDisconnected()
     }
     
     func errorCallback(error: Error?) {
@@ -284,7 +282,6 @@ extension BTDevice: CBPeripheralDelegate {
                 peripheral.setNotifyValue(true, for: $0)
             }
         }
-        delegate?.deviceReady()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -304,16 +301,10 @@ extension BTDevice: CBPeripheralDelegate {
             _long_touch_b5 = Int(w)
             delegate?.deviceLongTouchB5Changed(value: long_touch_b5)
         }
+        
         if characteristic.uuid == long_touch_b7_Char?.uuid, let d = characteristic.value?.parseInt() {
             _long_touch_b7 = Int(d)
             delegate?.deviceLongTouchB7Changed(value: long_touch_b7)
-        }
-        
-        if characteristic.uuid == BTUUIDs.infoSerial, let d = characteristic.value {
-            serial = String(data: d, encoding: .utf8)
-            if let serial = serial {
-                delegate?.deviceSerialChanged(value: serial)
-            }
         }
     }
 }
