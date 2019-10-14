@@ -29,7 +29,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     // Only one building can be selected at one time or no building
     var selectedBuilding: Int?
     // Static information regarding buildings
-    var buildingsInformation = [["Residential", "Pre-2010"],["Office", "Post-2010"],[],["Residential", "Post-2010"],[],["Office", "Post-2010"],["Residential", "Post-2010"], ["Residential", "Pre-2010"]]
+    var buildingsInformation = [["Residential", "Pre-2010"],["Office", "Post-2010"],["Residential", "Post-2010"],["Residential", "Post-2010"],["Office", "Post-2010"],["Office", "Post-2010"],["Residential", "Post-2010"], ["Residential", "Pre-2010"]]
     var cubeSize = (0.076, 0.030, 0.068)
     // Store the coordinates of the marker for adding objects.
     var modelCoordinate = simd_float4x4.init()
@@ -304,7 +304,7 @@ extension ARViewController {
             switch selectedBuilding {
             case 0:
                 device?.b1_led = 3
-                modalVC.pImage = UIImage(named: "3")
+                modalVC.pImage = UIImage(named: "6")
             case 1:
                 device?.b2_led = 3
                 modalVC.pImage = UIImage(named: "2")
@@ -314,6 +314,7 @@ extension ARViewController {
                         box.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
                     }
                 }
+                modalVC.pImage = UIImage(named: "3")
             case 3:
                 device?.b4_led = 3
                 modalVC.pImage = UIImage(named: "4")
@@ -329,9 +330,16 @@ extension ARViewController {
                         box.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
                     }
                 }
+                modalVC.pImage = UIImage(named: "5")
             case 5:
                 device?.b6_led = 3
                 modalVC.pImage = UIImage(named: "1")
+            case 6:
+                device?.b7_led = 3
+                modalVC.pImage = UIImage(named: "7")
+            case 7:
+                device?.b8_led = 3
+                modalVC.pImage = UIImage(named: "2")
             default:
                 print("Invalid building to light up")
                 return

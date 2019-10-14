@@ -517,6 +517,7 @@ void loop() {
     long total_B6 =  B6_Touch.capacitiveSensor(30);
     long total_B7 =  B7_Touch.capacitiveSensor(30);
     long total_B8 =  B8_Touch.capacitiveSensor(30);
+    Serial.println(total_B1);
     //Single touch UUID: 0:B1 1:B2 2:B3 3:B4 4:B5 5:B6
 
     /** B1 TOUCH **/
@@ -643,7 +644,7 @@ void loop() {
     }
 
     /** B6 TOUCH **/
-    if (total_B6 > 30000 && !B6_Touch_started) {
+    if (total_B6 > 20000 && !B6_Touch_started) {
       B6_Touch_begin = start;
       B6_recent_long_delay = start;
       B6_current_long_delay = start - B6_recent_long_delay;
@@ -660,7 +661,7 @@ void loop() {
       B6_Touch_started = false;
     }
 
-    if (total_B6 > 30000 && B6_Touch_started && B6_current_long_delay >= long_touch) {
+    if (total_B6 > 20000 && B6_Touch_started && B6_current_long_delay >= long_touch) {
       Serial.println("LONG B6 +1 UNIT");
       // Cannot add stories for this building.
     }
