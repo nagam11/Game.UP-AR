@@ -51,14 +51,14 @@ BLECharacteristic *pCharB3_LONG_TOUCH;
 BLECharacteristic *pCharB5_LONG_TOUCH;
 BLECharacteristic *pCharB7_LONG_TOUCH;
 
-/** ======================= LEDs =====================================**/
+/** ========================== LEDs =====================================**/
 /*  NeoPixel PINs  */
 #define B1_LED 23
 #define B2_LED 22
 #define B4_LED 21
 #define B6_LED 19
 #define B7_LED 18
-#define B8_LED 30
+#define B8_LED 5
 #define colorSaturation 255
 // Number of LEDs in Neopixel strips
 #define COUNT 2
@@ -81,7 +81,7 @@ bool B4_LED_ON = false;
 bool B6_LED_ON = false;
 bool B8_LED_ON = false;
 
-/** ======================= Touch ====================================**/
+/** ========================= Touch ====================================**/
 CapacitiveSensor   B1_Touch = CapacitiveSensor(4, 2);        // 10M resistor between 4 & 2, 2 is sensor LED PIN.
 CapacitiveSensor   B2_Touch = CapacitiveSensor(4, 15);       // 10M resistor between 4 & 15, 15 is sensor LED PIN.
 CapacitiveSensor   B3_Touch = CapacitiveSensor(4, 33);       // 10M resistor between 4 & 33, 33 is sensor LED PIN.

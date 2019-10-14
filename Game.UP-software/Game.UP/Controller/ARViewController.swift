@@ -21,16 +21,15 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     }
     
     // MARK: - IBOutlets
-    @IBOutlet weak var testButton: UIButton!
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var informationTextView: UITextView!
     @IBOutlet weak var stopFilteringButton: UIButton!
     
     // MARK: - AR Variables
-    //Only one building can be selected at one time or no building
+    // Only one building can be selected at one time or no building
     var selectedBuilding: Int?
     // Static information regarding buildings
-    var buildingsInformation = [["Residential", "Pre-2010"],["Office", "Post-2010"],[],["Residential", "Post-2010"],[],["Office", "Pre-2010"]]
+    var buildingsInformation = [["Residential", "Pre-2010"],["Office", "Post-2010"],[],["Residential", "Post-2010"],[],["Office", "Post-2010"],["Residential", "Post-2010"], ["Residential", "Pre-2010"]]
     var cubeSize = (0.076, 0.030, 0.068)
     // Store the coordinates of the marker for adding objects.
     var modelCoordinate = simd_float4x4.init()
@@ -82,7 +81,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         self.informationTextView.layer.opacity = 0.7
         self.informationTextView.layer.cornerRadius = 12
         self.informationTextView.layer.borderWidth = 0
-        self.testButton.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -213,7 +211,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
-    // MARK: - ARNode interaction
+    // MARK: - ARNode Interaction
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         // Get first touch
@@ -227,16 +225,17 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             return
         }
         
+        //TODO: handle all clicks
         let clickedNode = self.b7_boxes[2]
         if clickedNode == result.node {
-            print("second floor of B5 clicked")
+            print("second floor of B7 clicked")
             clickedNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
             if b7_boxes.count > 0 {
                 for box in b7_boxes {
                     box.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
                 }
             }
-            device?.b4_led = 1
+            device?.b7_led = 1
             self.informationTextView.isHidden = false
         }
     }
@@ -271,19 +270,19 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             let storyNode = SCNNode(geometry: story)
             storyNode.opacity = 0.8
             storyNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.08,self.modelCoordinate.columns.3.z - 0.12)
-            let b5_third_floor = SCNNode()
-            b5_third_floor.addChildNode(storyNode)
-            self.b5_floors[0] = b5_third_floor
+            let b3_third_floor = SCNNode()
+            b3_third_floor.addChildNode(storyNode)
+            self.b3_floors[0] = b3_third_floor
             
             let storyDivider = SCNBox(width: CGFloat(self.cubeSize.0), height: 0.005, length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
             storyDivider.firstMaterial?.diffuse.contents = UIColor.black
             let storyDividerNode = SCNNode(geometry: storyDivider)
             storyDividerNode.opacity = 1
             storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x  ,self.modelCoordinate.columns.3.y - 0.07,self.modelCoordinate.columns.3.z - 0.12)
-            self.b5_floors[0].addChildNode(storyDividerNode)
+            self.b3_floors[0].addChildNode(storyDividerNode)
             //self.sceneView.scene.rootNode.addChildNode(self.b5_floors[0])
             
-            planeNode.addChildNode(self.b5_floors[0])
+            planeNode.addChildNode(self.b3_floors[0])
             node.addChildNode(planeNode)
         }
         //}
@@ -461,7 +460,7 @@ extension ARViewController: BTDeviceDelegate {
                     storyDividerNode.opacity = 1
                     storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x - 0.05 ,self.modelCoordinate.columns.3.y - 0.07,self.modelCoordinate.columns.3.z - 0.15)
                     self.b3_floors[0].addChildNode(storyDividerNode)
-                    self.sceneView.scene.rootNode.addChildNode(self.b3_floors[0])
+                    //self.sceneView.scene.rootNode.addChildNode(self.b3_floors[0])
                 case 2:
                     let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
                     story.firstMaterial?.diffuse.contents = UIColor.gray
@@ -479,7 +478,7 @@ extension ARViewController: BTDeviceDelegate {
                     storyDividerNode.opacity = 1
                     storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x - 0.05 ,self.modelCoordinate.columns.3.y - 0.05,self.modelCoordinate.columns.3.z - 0.15)
                     self.b3_floors[1].addChildNode(storyDividerNode)
-                    self.sceneView.scene.rootNode.addChildNode(self.b3_floors[1])
+                    //self.sceneView.scene.rootNode.addChildNode(self.b3_floors[1])
                 case 3:
                     let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
                     story.firstMaterial?.diffuse.contents = UIColor.gray
@@ -497,7 +496,7 @@ extension ARViewController: BTDeviceDelegate {
                     storyDividerNode.opacity = 1
                     storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x - 0.05 ,self.modelCoordinate.columns.3.y - 0.03,self.modelCoordinate.columns.3.z - 0.15)
                     self.b3_floors[2].addChildNode(storyDividerNode)
-                    self.sceneView.scene.rootNode.addChildNode(self.b3_floors[2])
+                   // self.sceneView.scene.rootNode.addChildNode(self.b3_floors[2])
                 case 4:
                     let story = SCNBox(width: CGFloat(self.cubeSize.0), height: CGFloat(self.cubeSize.1), length: CGFloat(self.cubeSize.2), chamferRadius: 0.0)
                     story.firstMaterial?.diffuse.contents = UIColor.gray
@@ -515,7 +514,7 @@ extension ARViewController: BTDeviceDelegate {
                     storyDividerNode.opacity = 1
                     storyDividerNode.position = SCNVector3(self.modelCoordinate.columns.3.x - 0.05 ,self.modelCoordinate.columns.3.y - 0.01,self.modelCoordinate.columns.3.z - 0.15)
                     self.b3_floors[3].addChildNode(storyDividerNode)
-                    self.sceneView.scene.rootNode.addChildNode(self.b3_floors[3])
+                    //self.sceneView.scene.rootNode.addChildNode(self.b3_floors[3])
                     let alert = UIAlertController(title: "Delete buildings", message: "Try deleting buildings by selecting delete on the bottom.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
                     self.present(alert, animated: true)
