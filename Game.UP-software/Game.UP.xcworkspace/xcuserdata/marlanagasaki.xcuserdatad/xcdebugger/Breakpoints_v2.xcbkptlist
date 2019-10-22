@@ -7,65 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "400D6AF7-7D41-49B2-B11E-1A65663B0431"
+            uuid = "2E68A689-F1B9-42E5-9FD4-3499C898B8C9"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Game.UP/BLE/BTDevice.swift"
+            filePath = "Game.UP/Controller/ARViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
-            landmarkName = "peripheral(_:didDiscoverCharacteristicsFor:error:)"
+            startingLineNumber = "480"
+            endingLineNumber = "480"
+            landmarkName = "deviceLongTouchB3Changed(value:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "24EF5FA3-73DD-4615-B372-CBCDBF605775"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Game.UP/BLE/BTDevice.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
-            landmarkName = "peripheral(_:didDiscoverCharacteristicsFor:error:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "24EF5FA3-73DD-4615-B372-CBCDBF605775 - d5720577b1cea749"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Game_UP.BTDevice.peripheral(_: __C.CBPeripheral, didDiscoverCharacteristicsFor: __C.CBService, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "Game.UP"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marlanagasaki/Documents/GitHub/Game.UP-AR/Game.UP/Game.UP/BLE/BTDevice.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "269"
-                  endingLineNumber = "269"
-                  offsetFromSymbolStart = "64">
-               </Location>
-               <Location
-                  uuid = "24EF5FA3-73DD-4615-B372-CBCDBF605775 - c914e7f81de384b8"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.CBCharacteristic) -&gt; () in Game_UP.BTDevice.peripheral(_: __C.CBPeripheral, didDiscoverCharacteristicsFor: __C.CBService, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "Game.UP"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marlanagasaki/Documents/GitHub/Game.UP-AR/Game.UP/Game.UP/BLE/BTDevice.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "271"
-                  endingLineNumber = "271"
-                  offsetFromSymbolStart = "140">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
